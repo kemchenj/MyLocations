@@ -26,6 +26,8 @@ class CurrentLocationViewController: UIViewController {
     let locationManager = CLLocationManager()
     var location : CLLocation?
     
+    var updatingLocation = false
+    var lastLocationError: NSError?
 }
 
 
@@ -46,9 +48,8 @@ private extension CurrentLocationViewController {
             return
         }
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.startUpdatingLocation()
+        startLocationManager()
+        updateLabels()
     }
     
     func showLocationServicesDeniedAlert() {
@@ -71,19 +72,61 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError) {
         
-        print("Did Faild With Error \(error)")
-    }
-    
-    @objc(locationManager:didUpdateLocations:) func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
-        let newLocation = locations.last
+        print("Did Faild With Error: \(error)")
         
-        location = newLocation
+        if error.code == CLError.locationUnknown.rawValue {
+            return
+        }
+        
+        lastLocationError = error
+        
+        stopLocationManager()
         updateLabels()
-        
-        print("Did Update Locations \(newLocation)")
     }
     
+    private func startLocationManager() {
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            updatingLocation = true
+        }
+    }
+    
+    private func stopLocationManager() {
+        
+        if updatingLocation {
+            locationManager.stopUpdatingLocation()
+            locationManager.delegate = nil
+            updatingLocation = false
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let newLocation = locations.last
+        print("Did Update Locations \(newLocation)")
+        
+        if newLocation?.timestamp.timeIntervalSinceNow < -5 {
+            return
+        }
+        
+        if newLocation?.horizontalAccuracy < 0 {
+            return
+        }
+        
+        if location == nil || location!.horizontalAccuracy > newLocation?.horizontalAccuracy {
+            lastLocationError = nil
+            location = newLocation
+            
+            updateLabels()
+            
+            if newLocation?.horizontalAccuracy <= locationManager.desiredAccuracy {
+                print("***** We are done!")
+                stopLocationManager()
+            }
+        }
+    }
 }
 
 
@@ -98,7 +141,7 @@ extension CurrentLocationViewController {
         updateLabels()
     }
     
-    func updateLabels() {
+     private func updateLabels() {
         if let location = location {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
@@ -110,7 +153,35 @@ extension CurrentLocationViewController {
             longtitudeLabel.text = ""
             tagButton.isHidden = true
             messageLabel.text = "Tap 'Get My Location' Button To Start"
+            
+            let statusMessage: String
+            if let error = lastLocationError {
+                if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
+                    statusMessage = "Location Services Disabled"
+                } else {
+                    statusMessage = "Error Getting Location"
+                }
+            } else if !CLLocationManager.locationServicesEnabled() {
+                statusMessage = "Location Services disabled"
+            } else if updatingLocation{
+                statusMessage = "Searching... ..."
+            } else {
+                statusMessage = "Tag 'Get My Location' To Start"
+            }
+            
+            print(statusMessage)
+            
+            messageLabel.text = statusMessage
         }
     }
     
 }
+
+
+
+
+
+
+
+
+
