@@ -13,7 +13,7 @@ import CoreLocation
 
 // MARK: - Class
 
-class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate {
+class CurrentLocationViewController: UIViewController {
     
     @IBOutlet weak var messageLabel : UILabel!
     @IBOutlet weak var addressLabel : UILabel!
@@ -42,7 +42,7 @@ private extension CurrentLocationViewController {
         }
         
         if authStatus == .denied || authStatus == .restricted {
-            showLocationServicesDeniedAler()
+            showLocationServicesDeniedAlert()
             return
         }
         
@@ -51,7 +51,7 @@ private extension CurrentLocationViewController {
         locationManager.startUpdatingLocation()
     }
     
-    func showLocationServicesDeniedAler() {
+    func showLocationServicesDeniedAlert() {
         let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -67,14 +67,15 @@ private extension CurrentLocationViewController {
 
 // MARK: - Location Manager Delegate
 
-extension CurrentLocationViewController {
+extension CurrentLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError) {
         
         print("Did Faild With Error \(error)")
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdate locations: [CLLocation]) {
+    @objc(locationManager:didUpdateLocations:) func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
         let newLocation = locations.last
         
         location = newLocation
