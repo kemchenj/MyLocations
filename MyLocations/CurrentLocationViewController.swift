@@ -48,8 +48,16 @@ private extension CurrentLocationViewController {
             return
         }
         
-        startLocationManager()
+        if updatingLocation {
+            stopLocationManager()
+        }else {
+            location = nil
+            lastLocationError = nil
+            startLocationManager()
+        }
+
         updateLabels()
+        configureGetButton()
     }
     
     func showLocationServicesDeniedAlert() {
@@ -62,6 +70,13 @@ private extension CurrentLocationViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func configureGetButton() {
+        if updatingLocation {
+            getButton.setTitle("Stop", for: [])
+        } else {
+            getButton.setTitle("Get My Location", for: [])
+        }
+    }
 }
 
 
@@ -82,6 +97,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         
         stopLocationManager()
         updateLabels()
+        configureGetButton()
     }
     
     private func startLocationManager() {
@@ -124,6 +140,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             if newLocation?.horizontalAccuracy <= locationManager.desiredAccuracy {
                 print("***** We are done!")
                 stopLocationManager()
+                configureGetButton()
             }
         }
     }
@@ -139,6 +156,7 @@ extension CurrentLocationViewController {
         super.viewDidLoad()
         
         updateLabels()
+        configureGetButton()
     }
     
      private func updateLabels() {
