@@ -15,19 +15,25 @@ import CoreLocation
 
 class CurrentLocationViewController: UIViewController {
     
-    @IBOutlet weak var messageLabel : UILabel!
-    @IBOutlet weak var addressLabel : UILabel!
-    @IBOutlet weak var latitudeLabel : UILabel!
-    @IBOutlet weak var longtitudeLabel : UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var latitudeLabel: UILabel!
+    @IBOutlet weak var longtitudeLabel: UILabel!
     
-    @IBOutlet weak var tagButton : UIButton!
-    @IBOutlet weak var getButton : UIButton!
+    @IBOutlet weak var tagButton: UIButton!
+    @IBOutlet weak var getButton: UIButton!
     
     let locationManager = CLLocationManager()
-    var location : CLLocation?
+    var location: CLLocation?
     
     var updatingLocation = false
     var lastLocationError: NSError?
+    
+    let geocoder = CLGeocoder()
+    var placemark: CLPlacemark?
+    var performingReverseGeocoding = false
+    var lastGeocodingError: NSError?
+    var timer: Timer?
 }
 
 
@@ -53,9 +59,11 @@ private extension CurrentLocationViewController {
         }else {
             location = nil
             lastLocationError = nil
+            placemark = nil
+            lastGeocodingError = nil
             startLocationManager()
         }
-
+        
         updateLabels()
         configureGetButton()
     }
@@ -113,9 +121,30 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
     private func stopLocationManager() {
         
         if updatingLocation {
+            if let timer = timer {
+                timer.invalidate()
+            }
+            
             locationManager.stopUpdatingLocation()
             locationManager.delegate = nil
             updatingLocation = false
+        }
+    }
+    
+    private func didTimeOut() {
+        
+        print("*** Time out")
+        
+        if location == nil {
+            stopLocationManager()
+            
+            lastLocationError = NSError(domain: "MyLocationsErrorDomain",
+                                        code: 1,
+                                        userInfo: nil
+            )
+            
+            updateLabels()
+            configureGetButton()
         }
     }
     
@@ -131,6 +160,11 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             return
         }
         
+        var distance = CLLocationDistance(DBL_MAX)
+        if let location = location {
+            distance = (newLocation?.distance(from: location))!
+        }
+        
         if location == nil || location!.horizontalAccuracy > newLocation?.horizontalAccuracy {
             lastLocationError = nil
             location = newLocation
@@ -140,6 +174,30 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             if newLocation?.horizontalAccuracy <= locationManager.desiredAccuracy {
                 print("***** We are done!")
                 stopLocationManager()
+                configureGetButton()
+                
+                if distance > 0 {
+                    performingReverseGeocoding = false
+                }
+            }
+            
+            if !performingReverseGeocoding {
+                print("Going to geocode")
+                
+                performingReverseGeocoding = true
+                
+                geocoder.reverseGeocodeLocation(newLocation!) {
+                    placemarks, error in
+                    print("*** Found placements: \(placemarks), error: \(error)")
+                }
+            }
+        } else if distance < 1.0 {
+            let timeInterval = newLocation?.timestamp.timeIntervalSince(location!.timestamp)
+            
+            if timeInterval > 10 {
+                print("*** Force done!")
+                stopLocationManager()
+                updateLabels()
                 configureGetButton()
             }
         }
@@ -159,12 +217,23 @@ extension CurrentLocationViewController {
         configureGetButton()
     }
     
-     private func updateLabels() {
+    private func updateLabels() {
         if let location = location {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
             tagButton.isHidden = false
             messageLabel.text = ""
+            
+            if let placemark = placemark {
+                addressLabel.text = string(fromPlacemark: placemark)
+            } else if performingReverseGeocoding {
+                addressLabel.text = "Searching For Address..."
+            } else if lastGeocodingError != nil {
+                addressLabel.text = "Error Finding Address"
+            } else {
+                addressLabel.text = "No Address Found"
+            }
+            
         } else {
             addressLabel.text = ""
             latitudeLabel.text = ""
@@ -191,6 +260,32 @@ extension CurrentLocationViewController {
             
             messageLabel.text = statusMessage
         }
+    }
+    
+    func string(fromPlacemark placemark:CLPlacemark) -> String {
+        
+        var line1 = ""
+        
+        if let s = placemark.subThoroughfare {
+            line1 += s + " "
+        }
+        if let s = placemark.thoroughfare {
+            line1 += s + " "
+        }
+        
+        var line2 = ""
+        
+        if let s = placemark.locality {
+            line2 += s + " "
+        }
+        if let s = placemark.administrativeArea {
+            line2 += s + " "
+        }
+        if let s = placemark.postalCode {
+            line2 += s
+        }
+        
+        return line1 + "\n" + line2
     }
     
 }
