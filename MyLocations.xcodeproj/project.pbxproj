@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */; };
 		C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */; };
 		C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */; };
 		C89CDF9A1CF43F5E00A0A19F /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF991CF43F5E00A0A19F /* SecondViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
 		C89CDF921CF43F5E00A0A19F /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */,
 				C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */,
+				C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */,
 				C89CDF991CF43F5E00A0A19F /* SecondViewController.swift */,
 				C89CDF9B1CF43F5E00A0A19F /* Main.storyboard */,
 				C89CDF9E1CF43F5E00A0A19F /* Assets.xcassets */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */,
 				C89CDF9A1CF43F5E00A0A19F /* SecondViewController.swift in Sources */,
 				C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */,
 				C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */,

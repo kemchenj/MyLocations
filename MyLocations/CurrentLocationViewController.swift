@@ -115,6 +115,12 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             updatingLocation = true
+            
+            timer = Timer.scheduledTimer(timeInterval: 60,
+                                         target: self,
+                                         selector: #selector(self.didTimeOut),
+                                         userInfo: nil,
+                                         repeats: false)
         }
     }
     
@@ -132,7 +138,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         }
     }
     
-    private func didTimeOut() {
+    func didTimeOut() {
         
         print("*** Time out")
         
