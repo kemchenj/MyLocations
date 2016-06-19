@@ -68,7 +68,7 @@ private extension CurrentLocationViewController {
         configureGetButton()
     }
     
-    func showLocationServicesDeniedAlert() {
+    private func showLocationServicesDeniedAlert() {
         let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -78,7 +78,7 @@ private extension CurrentLocationViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func configureGetButton() {
+    private func configureGetButton() {
         if updatingLocation {
             getButton.setTitle("Stop", for: [])
         } else {
@@ -118,6 +118,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         }
     }
     
+    
     private func stopLocationManager() {
         
         if updatingLocation {
@@ -140,13 +141,16 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             
             lastLocationError = NSError(domain: "MyLocationsErrorDomain",
                                         code: 1,
-                                        userInfo: nil
-            )
+                                        userInfo: nil)
             
             updateLabels()
             configureGetButton()
         }
     }
+    
+    
+    
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last
@@ -168,7 +172,6 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         if location == nil || location!.horizontalAccuracy > newLocation?.horizontalAccuracy {
             lastLocationError = nil
             location = newLocation
-            
             updateLabels()
             
             if newLocation?.horizontalAccuracy <= locationManager.desiredAccuracy {
@@ -186,9 +189,21 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                 
                 performingReverseGeocoding = true
                 
-                geocoder.reverseGeocodeLocation(newLocation!) {
-                    placemarks, error in
-                    print("*** Found placements: \(placemarks), error: \(error)")
+                geocoder.reverseGeocodeLocation(newLocation!) { placemarks, error in
+                    print("*** Found placements: \(placemarks)")
+                    if let code = error?.code {
+                        print("error: \(CLError(rawValue: code))")
+                    }
+                    
+                    self.lastGeocodingError = error
+                    if error == nil, let p = placemarks where !p.isEmpty{
+                        self.placemark = p.last
+                    } else {
+                        self.placemark = nil
+                    }
+                    
+                    self.performingReverseGeocoding = false
+                    self.updateLabels()
                 }
             }
         } else if distance < 1.0 {
@@ -217,7 +232,7 @@ extension CurrentLocationViewController {
         configureGetButton()
     }
     
-    private func updateLabels() {
+    func updateLabels() {
         if let location = location {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
@@ -243,6 +258,8 @@ extension CurrentLocationViewController {
             
             let statusMessage: String
             if let error = lastLocationError {
+                print(error.code)
+                print(CLError.denied.rawValue)
                 if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
                     statusMessage = "Location Services Disabled"
                 } else {
