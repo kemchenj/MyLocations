@@ -124,7 +124,6 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         }
     }
     
-    
     private func stopLocationManager() {
         
         if updatingLocation {
@@ -153,10 +152,6 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             configureGetButton()
         }
     }
-    
-    
-    
-    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last
@@ -238,7 +233,7 @@ extension CurrentLocationViewController {
         configureGetButton()
     }
     
-    func updateLabels() {
+    private func updateLabels() {
         if let location = location {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
@@ -285,7 +280,7 @@ extension CurrentLocationViewController {
         }
     }
     
-    func string(fromPlacemark placemark:CLPlacemark) -> String {
+    private func string(fromPlacemark placemark:CLPlacemark) -> String {
         
         var line1 = ""
         
@@ -309,6 +304,16 @@ extension CurrentLocationViewController {
         }
         
         return line1 + "\n" + line2
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "TagLocation" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! LocationDetailsViewController
+            
+            controller.coordinate = location!.coordinate
+            controller.placemark = placemark
+        }
     }
     
 }
