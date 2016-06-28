@@ -19,6 +19,9 @@
 		C89CDF9F1CF43F5E00A0A19F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C89CDF9E1CF43F5E00A0A19F /* Assets.xcassets */; };
 		C89CDFA21CF43F5E00A0A19F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C89CDFA01CF43F5E00A0A19F /* LaunchScreen.storyboard */; };
 		C8D3A2521D227398009858D1 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C8D3A2501D227398009858D1 /* DataModel.xcdatamodeld */; };
+		C8D3A2561D227458009858D1 /* ___COREDATA_DATAMODELNAME___+CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D3A2531D227458009858D1 /* ___COREDATA_DATAMODELNAME___+CoreDataModel.swift */; };
+		C8D3A2571D227458009858D1 /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D3A2541D227458009858D1 /* Location+CoreDataClass.swift */; };
+		C8D3A2581D227458009858D1 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D3A2551D227458009858D1 /* Location+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		C89CDFA11CF43F5E00A0A19F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C89CDFA31CF43F5E00A0A19F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8D3A2511D227398009858D1 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		C8D3A2531D227458009858D1 /* ___COREDATA_DATAMODELNAME___+CoreDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "___COREDATA_DATAMODELNAME___+CoreDataModel.swift"; sourceTree = "<group>"; };
+		C8D3A2541D227458009858D1 /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C8D3A2551D227458009858D1 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				C8D3A2501D227398009858D1 /* DataModel.xcdatamodeld */,
+				C8D3A2531D227458009858D1 /* ___COREDATA_DATAMODELNAME___+CoreDataModel.swift */,
+				C8D3A2541D227458009858D1 /* Location+CoreDataClass.swift */,
+				C8D3A2551D227458009858D1 /* Location+CoreDataProperties.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -198,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8D3A2561D227458009858D1 /* ___COREDATA_DATAMODELNAME___+CoreDataModel.swift in Sources */,
 				C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */,
 				C89CDF9A1CF43F5E00A0A19F /* SecondViewController.swift in Sources */,
 				C86ABFD71D221EF1003E317F /* HudView.swift in Sources */,
@@ -205,7 +215,9 @@
 				C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */,
 				C8319A251D168ABA00B26839 /* CategoryPickerViewController.swift in Sources */,
 				C8D3A2521D227398009858D1 /* DataModel.xcdatamodeld in Sources */,
+				C8D3A2581D227458009858D1 /* Location+CoreDataProperties.swift in Sources */,
 				C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */,
+				C8D3A2571D227458009858D1 /* Location+CoreDataClass.swift in Sources */,
 				C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
