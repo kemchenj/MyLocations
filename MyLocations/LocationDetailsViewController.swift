@@ -57,6 +57,25 @@ extension LocationDetailsViewController {
         }
         
         dateLabel.text = format(date: Date())
+        
+        let gestureRecognizer = UITapGestureRecognizer(target: self,
+                                                       action: #selector(self.hideKeyboard))
+        gestureRecognizer.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    
+    func hideKeyboard(gestureRecognizer: UITapGestureRecognizer) {
+    
+        let point = gestureRecognizer.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: point)
+        
+        if indexPath != nil && indexPath!.section == 0
+                            && indexPath!.row == 0 {
+            return
+        }
+        
+        descriptionTextView.resignFirstResponder()
     }
     
     private func string(fromPlacemark placemark: CLPlacemark) -> String {
@@ -93,19 +112,14 @@ extension LocationDetailsViewController {
 extension LocationDetailsViewController {
     
     @IBAction func done() {
-        dismiss(animated: true, completion: nil)
+        let hudView = HudView.hudInView(view: navigationController!.view, animated: true)
+        hudView.text = "Tagged"
     }
     
     @IBAction func cancel() {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func categoryPickerDidPickCategory(segue: UIStoryboardSegue) {
-        
-        let controller = segue.sourceViewController as! CategoryPickerViewController
-        categoryName = controller.selectedCategoryName
-        categoryLabel.text = categoryName
-    }
 }
 
 
@@ -113,6 +127,26 @@ extension LocationDetailsViewController {
 // MARK: - Table View
 
 extension LocationDetailsViewController {
+    
+    // MARK: - Delegate
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
+        if indexPath.section == 0 || indexPath.section == 1 {
+            return indexPath
+        } else {
+            return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let indexPath = indexPath
+        
+        if indexPath.section == 0 && indexPath.row == 0 {
+            descriptionTextView.becomeFirstResponder()
+        }
+    }
     
 }
 
@@ -128,6 +162,15 @@ extension LocationDetailsViewController {
             
             controller.selectedCategoryName = categoryName
         }
+    }
+    
+    // MARK: Unwind Segue
+    
+    @IBAction func categoryPickerDidPickCategory(segue: UIStoryboardSegue) {
+        
+        let controller = segue.sourceViewController as! CategoryPickerViewController
+        categoryName = controller.selectedCategoryName
+        categoryLabel.text = categoryName
     }
 }
 

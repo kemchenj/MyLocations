@@ -73,7 +73,7 @@ private extension CurrentLocationViewController {
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         
-        alert .addAction(okAction)
+        alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)
     }
