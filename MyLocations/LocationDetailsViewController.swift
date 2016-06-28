@@ -101,11 +101,9 @@ extension LocationDetailsViewController {
         text = "Tagged"
         showHudInView(rootView: navigationController!.view, animated: true)
 
-        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
-        let queue = DispatchQueue(label: "test")
-        queue.after(when: when, execute: {
+        afterDelay(seconds: 0.6) {
             self.dismiss(animated: true, completion: nil)
-        })
+        }
     }
 
     @IBAction func cancel() {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Dispatch
 
 
 class HudView: UIView {
