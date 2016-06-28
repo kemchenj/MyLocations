@@ -20,7 +20,7 @@ private let dateFormatter:DateFormatter = {
 
 // MARK: - Class
 
-class LocationDetailsViewController: UITableViewController {
+class LocationDetailsViewController: UITableViewController, Hud {
     
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var categoryLabel: UILabel!
@@ -32,7 +32,9 @@ class LocationDetailsViewController: UITableViewController {
     var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     var placemark: CLPlacemark?
     var categoryName = "No Category"
-    
+
+    var text: NSString = ""
+    var hudView: UIView?
 }
 
 
@@ -112,8 +114,8 @@ extension LocationDetailsViewController {
 extension LocationDetailsViewController {
     
     @IBAction func done() {
-        let hudView = HudView.hudInView(view: navigationController!.view, animated: true)
-        hudView.text = "Tagged"
+        text = "Tagged"
+        showHudInView(view: view, animated: true)
     }
     
     @IBAction func cancel() {
