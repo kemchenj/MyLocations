@@ -42,8 +42,6 @@ class HudView: UIView {
             self.alpha = 1
             self.transform = CGAffineTransform.identity
         }
-
-
     }
 
     override func draw(_ rect: CGRect) {

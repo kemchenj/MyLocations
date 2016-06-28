@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation
-
+import CoreData
 
 private let dateFormatter:DateFormatter = {
     let formatter = DateFormatter()
@@ -33,10 +33,9 @@ class LocationDetailsViewController: UITableViewController, Hud {
     var placemark: CLPlacemark?
     var categoryName = "No Category"
 
-    var text: NSString = ""
-    var hudView: UIView?
+    var hudText: NSString = ""
 
-
+    var managedObjectContext: NSManagedObjectContext!
 }
 
 
@@ -98,10 +97,10 @@ extension LocationDetailsViewController {
 extension LocationDetailsViewController {
 
     @IBAction func done() {
-        text = "Tagged"
+        hudText = "Tagged"
         showHudInView(rootView: navigationController!.view, animated: true)
 
-        afterDelay(seconds: 0.6) {
+        afterDelay(seconds: 1.5) {
             self.dismiss(animated: true, completion: nil)
         }
     }

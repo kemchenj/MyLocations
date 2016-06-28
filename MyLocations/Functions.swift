@@ -10,7 +10,6 @@ import Foundation
 import Dispatch
 
 func afterDelay(seconds: Double, closure: () -> ()) {
-    let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(Int(seconds * 10))
-
-    DispatchQueue(label: "test").after(when: when, execute: closure)
+    let when: DispatchTime = .now() + seconds
+    DispatchQueue.main.after(when: when, execute: closure)
 }

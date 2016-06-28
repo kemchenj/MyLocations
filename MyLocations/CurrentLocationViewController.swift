@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation
-
+import CoreData
 
 
 // MARK: - Class
@@ -34,6 +34,8 @@ class CurrentLocationViewController: UIViewController {
     var performingReverseGeocoding = false
     var lastGeocodingError: NSError?
     var timer: Timer?
+
+    var managedObjectContext: NSManagedObjectContext!
 }
 
 
@@ -313,6 +315,7 @@ extension CurrentLocationViewController {
             
             controller.coordinate = location!.coordinate
             controller.placemark = placemark
+            controller.managedObjectContext = managedObjectContext
         }
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol Hud {
-    var text: NSString {set get}
+    var hudText: NSString {set get}
 
     func showHudInView(rootView view: UIView, animated: Bool)
 }
