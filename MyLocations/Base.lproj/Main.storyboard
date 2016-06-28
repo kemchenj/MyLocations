@@ -121,7 +121,7 @@
                                             <frame key="frameInset" width="375" height="87"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="(Description gose here)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSC-9B-yW6">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="(Description gose here)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cSC-9B-yW6">
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -235,34 +235,28 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="jRB-cq-8eS">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="bxw-Tt-7qK" detailTextLabel="oob-c9-Trt" style="IBUITableViewCellStyleValue1" id="jRB-cq-8eS">
                                         <rect key="frame" x="0.0" y="456" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jRB-cq-8eS" id="AE0-hP-ty4">
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="mu7-tS-QqG">
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PzF-xe-aJB">
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Datail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n2v-Rd-PYj">
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bxw-Tt-7qK">
+                                                    <frame key="frameInset" minX="15" minY="11" width="63" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" id="oob-c9-Trt">
+                                                    <frame key="frameInset" minX="316" minY="11" width="44" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="mu7-tS-QqG" firstAttribute="leading" secondItem="AE0-hP-ty4" secondAttribute="leadingMargin" constant="7" id="Q1Z-kg-hol"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="mu7-tS-QqG" secondAttribute="trailing" constant="7" id="itg-tl-Qna"/>
-                                                <constraint firstItem="mu7-tS-QqG" firstAttribute="top" secondItem="AE0-hP-ty4" secondAttribute="topMargin" constant="5" id="mju-8H-hVs"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="mu7-tS-QqG" secondAttribute="bottom" constant="5" id="prz-vL-p2Q"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="FIB-GL-vwx" detailTextLabel="Mx0-4i-HhF" style="IBUITableViewCellStyleValue1" id="8bB-BI-WFx">
@@ -310,7 +304,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addressLabel" destination="n2v-Rd-PYj" id="VFZ-oH-3BM"/>
+                        <outlet property="addressLabel" destination="oob-c9-Trt" id="4GO-Qv-e72"/>
                         <outlet property="categoryLabel" destination="tKX-d1-akJ" id="xeX-jw-oOZ"/>
                         <outlet property="dateLabel" destination="Mx0-4i-HhF" id="zE7-ps-3oo"/>
                         <outlet property="descriptionTextView" destination="cSC-9B-yW6" id="zAC-Ow-adu"/>

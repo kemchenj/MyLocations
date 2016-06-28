@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */; };
 		C8319A251D168ABA00B26839 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8319A241D168ABA00B26839 /* CategoryPickerViewController.swift */; };
-		C86ABFD51D220503003E317F /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD41D220503003E317F /* HudView.swift */; };
+		C86ABFD71D221EF1003E317F /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD61D221EF1003E317F /* HudView.swift */; };
+		C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD91D221F16003E317F /* ShowHud.swift */; };
 		C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */; };
 		C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */; };
 		C89CDF9A1CF43F5E00A0A19F /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF991CF43F5E00A0A19F /* SecondViewController.swift */; };
@@ -21,7 +22,8 @@
 /* Begin PBXFileReference section */
 		C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
 		C8319A241D168ABA00B26839 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
-		C86ABFD41D220503003E317F /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
+		C86ABFD61D221EF1003E317F /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
+		C86ABFD91D221F16003E317F /* ShowHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowHud.swift; sourceTree = "<group>"; };
 		C89CDF921CF43F5E00A0A19F /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C86ABFD81D221F00003E317F /* Hud */ = {
+			isa = PBXGroup;
+			children = (
+				C86ABFD61D221EF1003E317F /* HudView.swift */,
+				C86ABFD91D221F16003E317F /* ShowHud.swift */,
+			);
+			name = Hud;
+			sourceTree = "<group>";
+		};
 		C89CDF891CF43F5E00A0A19F = {
 			isa = PBXGroup;
 			children = (
@@ -67,8 +78,8 @@
 				C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */,
 				C8319A241D168ABA00B26839 /* CategoryPickerViewController.swift */,
 				C89CDF991CF43F5E00A0A19F /* SecondViewController.swift */,
+				C86ABFD81D221F00003E317F /* Hud */,
 				C89CDF9B1CF43F5E00A0A19F /* Main.storyboard */,
-				C86ABFD41D220503003E317F /* HudView.swift */,
 				C89CDF9E1CF43F5E00A0A19F /* Assets.xcassets */,
 				C89CDFA01CF43F5E00A0A19F /* LaunchScreen.storyboard */,
 				C89CDFA31CF43F5E00A0A19F /* Info.plist */,
@@ -151,9 +162,10 @@
 			files = (
 				C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */,
 				C89CDF9A1CF43F5E00A0A19F /* SecondViewController.swift in Sources */,
-				C86ABFD51D220503003E317F /* HudView.swift in Sources */,
+				C86ABFD71D221EF1003E317F /* HudView.swift in Sources */,
 				C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */,
 				C8319A251D168ABA00B26839 /* CategoryPickerViewController.swift in Sources */,
+				C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */,
 				C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
