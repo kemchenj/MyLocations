@@ -1,8 +1,8 @@
 //
-//  Location+CoreDataClass.swift
+//  Location.swift
 //  MyLocations
 //
-//  Created by kemchenj on 6/28/16.
+//  Created by kemchenj on 6/29/16.
 //  Copyright © 2016 kemchenj. All rights reserved.
 //
 
@@ -11,5 +11,7 @@ import CoreData
 
 
 class Location: NSManagedObject {
+
+// Insert code here to add functionality to your managed object subclass
 
 }
