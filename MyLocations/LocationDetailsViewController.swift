@@ -10,10 +10,10 @@ import UIKit
 import CoreLocation
 import CoreData
 
-private let dateFormatter:DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .mediumStyle
-    formatter.timeStyle = .shortStyle
+private let dateFormatter: NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.dateStyle = .MediumStyle
+    formatter.timeStyle = .ShortStyle
     return formatter
 }()
 
@@ -36,6 +36,8 @@ class LocationDetailsViewController: UITableViewController, Hud {
     var hudText: NSString = ""
 
     var managedObjectContext: NSManagedObjectContext!
+
+    var date = NSDate()
 }
 
 
@@ -59,7 +61,7 @@ extension LocationDetailsViewController {
             addressLabel.text = "Place Not Found"
         }
 
-        dateLabel.text = format(date: Date())
+        dateLabel.text = format(date)
     }
 
 
@@ -100,13 +102,33 @@ extension LocationDetailsViewController {
         hudText = "Tagged"
         showHudInView(rootView: navigationController!.view, animated: true)
 
-        afterDelay(seconds: 1.5) {
-            self.dismiss(animated: true, completion: nil)
+        afterDelay(1.5) {
+//            self.dismiss(animated: true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+
+        let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: managedObjectContext) as! Location
+        location.locationDescription = descriptionTextView.text
+        location.category = categoryName
+        location.latitude = coordinate.latitude
+        location.longitude = coordinate.longitude
+        location.date = date
+        location.placemark = placemark
+
+        do {
+            try managedObjectContext.save()
+        } catch {
+            fatalError("Error: \(error)")
+        }
+
+        afterDelay(0.6) { 
+//            self.dismiss(animated: true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 
     @IBAction func cancel() {
-        dismiss(animated: true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
     @IBAction func categoryPickerDidPickCategory(segue: UIStoryboardSegue) {
@@ -131,7 +153,8 @@ extension LocationDetailsViewController {
 
 extension LocationDetailsViewController {
 
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "PickCategory" {
             let controller = segue.destinationViewController as! CategoryPickerViewController
 
@@ -146,7 +169,7 @@ extension LocationDetailsViewController {
 
 private extension LocationDetailsViewController {
 
-    func format(date: Date) -> String {
-        return dateFormatter.string(from: date)
+    func format(date: NSDate) -> String {
+        return dateFormatter.stringFromDate(date)
     }
 }

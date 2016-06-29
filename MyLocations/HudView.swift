@@ -15,7 +15,7 @@ class HudView: UIView {
 
     static let sharedInstance = HudView()
     private init() {
-        super.init(frame: UIScreen.main().bounds)
+        super.init(frame: UIScreen.mainScreen().bounds)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("HudView is an Singleton")
@@ -25,7 +25,7 @@ class HudView: UIView {
         let hudView = HudView.sharedInstance
         hudView.text = text
 
-        hudView.isOpaque = false
+        hudView.opaque = false
         hudView.backgroundColor = UIColor(white: 0, alpha: 0.3)
 
         hudView.showAnimated()
@@ -36,15 +36,16 @@ class HudView: UIView {
     private func showAnimated() {
 
         alpha = 0
-        transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        transform = CGAffineTransformMakeScale(1.3, 1.3)
 
-        UIView.animate(withDuration: 0.3) {
+        UIView.animateWithDuration(0.3) {
             self.alpha = 1
-            self.transform = CGAffineTransform.identity
+            self.transform = CGAffineTransformIdentity
         }
     }
 
-    override func draw(_ rect: CGRect) {
+    override func drawRect(rect: CGRect) {
+
         let boxWidth: CGFloat = 96
         let boxHieght: CGFloat = 96
 
@@ -68,20 +69,19 @@ class HudView: UIView {
                 y: center.y - round(image.size.height / 2) - boxHieght / 8
             )
 
-            image.draw(at: imagePoint)
+            image.drawAtPoint(imagePoint)
         }
 
 
         // Draw Text
-        let attributes = [ NSFontAttributeName: UIFont.systemFont(ofSize: 16),
-                           NSForegroundColorAttributeName: UIColor.white()]
-        let textSize = text.size(attributes: attributes)
+        let attributes = [ NSFontAttributeName: UIFont.systemFontOfSize(16), NSForegroundColorAttributeName: UIColor.whiteColor()]
+        let textSize = text.sizeWithAttributes(attributes)
 
         let textPoint = CGPoint(
             x: center.x - round(textSize.width / 2),
             y: center.y - round(textSize.height / 2) + boxHieght / 4
         )
-        text.draw(at: textPoint, withAttributes: attributes)
+        text.drawAtPoint(textPoint, withAttributes: attributes)
     }
     
 }

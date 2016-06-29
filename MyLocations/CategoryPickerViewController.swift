@@ -13,7 +13,7 @@ import UIKit
 class CategoryPickerViewController: UITableViewController {
     
     var selectedCategoryName = ""
-    var selectedIndexPath = IndexPath()
+    var selectedIndexPath = NSIndexPath()
     
     let categories = ["No Category",
                       "Apple Store",
@@ -39,7 +39,8 @@ extension CategoryPickerViewController {
         
         for i in 0 ..< categories.count {
             if categories[i] == selectedCategoryName {
-                selectedIndexPath = IndexPath(row: i, section: 0)
+//                selectedIndexPath = NSIndexPath(row: i, section: 0)
+                selectedIndexPath = NSIndexPath(forItem: i, inSection: 0)
                 break
             }
         }
@@ -51,11 +52,11 @@ extension CategoryPickerViewController {
 // MARK: - Segue
 
 extension CategoryPickerViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "PickedCategory" {
             let cell = sender as! UITableViewCell
-            if let indexPath = tableView.indexPath(for: cell) {
+            if let indexPath = tableView.indexPathForCell(cell) {
                 selectedCategoryName = categories[indexPath.row]
             }
         }
@@ -70,21 +71,21 @@ extension CategoryPickerViewController {
     
     // MARK: - Data Source
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         
         let categoryName = categories[indexPath.row]
         cell.textLabel!.text = categoryName
         
         if categoryName == selectedCategoryName {
-            cell.accessoryType = .checkmark
+            cell.accessoryType = .Checkmark
         } else {
-            cell.accessoryType = .none
+            cell.accessoryType = .None
         }
         
         return cell
@@ -92,16 +93,16 @@ extension CategoryPickerViewController {
     
     
     // MARK: - Delegate
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
         if indexPath.row != selectedIndexPath.row {
-            if let newCell = tableView.cellForRow(at: indexPath) {
-                newCell.accessoryType = .checkmark
+            if let newCell = tableView.cellForRowAtIndexPath(indexPath) {
+                newCell.accessoryType = .Checkmark
             }
             
-            if let oldCell = tableView.cellForRow(at: selectedIndexPath) {
-                oldCell.accessoryType = .none
+            if let oldCell = tableView.cellForRowAtIndexPath(selectedIndexPath) {
+                oldCell.accessoryType = .None
             }
             
             selectedIndexPath = indexPath

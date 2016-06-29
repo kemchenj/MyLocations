@@ -33,7 +33,7 @@ class CurrentLocationViewController: UIViewController {
     var placemark: CLPlacemark?
     var performingReverseGeocoding = false
     var lastGeocodingError: NSError?
-    var timer: Timer?
+    var timer: NSTimer?
 
     var managedObjectContext: NSManagedObjectContext!
 }
@@ -46,12 +46,12 @@ private extension CurrentLocationViewController {
     
     @IBAction func getLocation() {
         let authStatus = CLLocationManager.authorizationStatus()
-        if authStatus == .notDetermined {
+        if authStatus == .NotDetermined {
             locationManager.requestWhenInUseAuthorization()
             return
         }
         
-        if authStatus == .denied || authStatus == .restricted {
+        if authStatus == .Denied || authStatus == .Restricted {
             showLocationServicesDeniedAlert()
             return
         }
@@ -71,20 +71,20 @@ private extension CurrentLocationViewController {
     }
     
     private func showLocationServicesDeniedAlert() {
-        let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings", preferredStyle: .Alert)
         
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
         
         alert .addAction(okAction)
         
-        present(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     private func configureGetButton() {
         if updatingLocation {
-            getButton.setTitle("Stop", for: [])
+            getButton.setTitle("Stop", forState: [])
         } else {
-            getButton.setTitle("Get My Location", for: [])
+            getButton.setTitle("Get My Location", forState: [])
         }
     }
 }
@@ -95,11 +95,11 @@ private extension CurrentLocationViewController {
 
 extension CurrentLocationViewController: CLLocationManagerDelegate {
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
         print("Did Faild With Error: \(error)")
         
-        if error.code == CLError.locationUnknown.rawValue {
+        if error.code == CLError.LocationUnknown.rawValue {
             return
         }
         
@@ -117,12 +117,12 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             updatingLocation = true
-            
-            timer = Timer.scheduledTimer(timeInterval: 60,
-                                         target: self,
-                                         selector: #selector(self.didTimeOut),
-                                         userInfo: nil,
-                                         repeats: false)
+
+            timer = NSTimer.scheduledTimerWithTimeInterval(60,
+                                                           target: self,
+                                                           selector: #selector(self.didTimeOut),
+                                                           userInfo: nil,
+                                                           repeats: false)
         }
     }
     
@@ -155,7 +155,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last
         print("Did Update Locations \(newLocation)")
         
@@ -169,7 +169,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         
         var distance = CLLocationDistance(DBL_MAX)
         if let location = location {
-            distance = (newLocation?.distance(from: location))!
+            distance = (newLocation?.distanceFromLocation(location))!
         }
         
         if location == nil || location!.horizontalAccuracy > newLocation?.horizontalAccuracy {
@@ -210,8 +210,9 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                 }
             }
         } else if distance < 1.0 {
-            let timeInterval = newLocation?.timestamp.timeIntervalSince(location!.timestamp)
-            
+//            let timeInterval = newLocation?.timestamp.timeIntervalSince(location!.timestamp)
+            let timeInterval = newLocation?.timestamp.timeIntervalSinceDate(location!.timestamp)
+
             if timeInterval > 10 {
                 print("*** Force done!")
                 stopLocationManager()
@@ -239,7 +240,7 @@ extension CurrentLocationViewController {
         if let location = location {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
-            tagButton.isHidden = false
+            tagButton.hidden = false
             messageLabel.text = ""
             
             if let placemark = placemark {
@@ -256,14 +257,14 @@ extension CurrentLocationViewController {
             addressLabel.text = ""
             latitudeLabel.text = ""
             longtitudeLabel.text = ""
-            tagButton.isHidden = true
+            tagButton.hidden = true
             messageLabel.text = "Tap 'Get My Location' Button To Start"
             
             let statusMessage: String
             if let error = lastLocationError {
                 print(error.code)
-                print(CLError.denied.rawValue)
-                if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
+                print(CLError.Denied.rawValue)
+                if error.domain == kCLErrorDomain && error.code == CLError.Denied.rawValue {
                     statusMessage = "Location Services Disabled"
                 } else {
                     statusMessage = "Error Getting Location"
@@ -307,8 +308,9 @@ extension CurrentLocationViewController {
         
         return line1 + "\n" + line2
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "TagLocation" {
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! LocationDetailsViewController

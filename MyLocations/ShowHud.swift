@@ -17,10 +17,10 @@ protocol Hud {
 extension Hud where Self: UIViewController {
 
     func showHudInView(rootView view: UIView, animated: Bool) {
-        let hudView = HudView.hudInView(text: "Tagged", animated: true)
+        let hudView = HudView.hudInView("Tagged", animated: true)
 
         view.addSubview(hudView)
-        view.isUserInteractionEnabled = false
+        view.userInteractionEnabled = false
     }
 
 
