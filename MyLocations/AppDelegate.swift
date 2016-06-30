@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let documentsDirectory = urls[0]
 
         do {
-            let storeURL = documentsDirectory.URLByAppendingPathComponent("DataStore.sqlite") //documentsDirectory.appendingPathComponent("DataStore.sqlite")
+            let storeURL = documentsDirectory.URLByAppendingPathComponent("DataStore.sqlite")
             let coordinator: NSPersistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
 
             try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)

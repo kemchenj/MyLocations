@@ -241,7 +241,7 @@ extension CurrentLocationViewController {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
             tagButton.hidden = false
-            messageLabel.text = ""
+            messageLabel.text = " "
             
             if let placemark = placemark {
                 addressLabel.text = string(fromPlacemark: placemark)
