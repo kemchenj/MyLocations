@@ -35,7 +35,8 @@ class LocationDetailsViewController: UITableViewController, Hud {
 
     var hudText: NSString = ""
 
-    var managedObjectContext: NSManagedObjectContext!
+//    var managedObjectContext: NSManagedObjectContext!
+    var coreDataStack: CoreDataStack!
 
     var date = NSDate()
 }
@@ -106,7 +107,7 @@ extension LocationDetailsViewController {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
 
-        let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: managedObjectContext) as! Location
+        let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: coreDataStack.managedObjectContext) as! Location
         location.locationDescription = descriptionTextView.text
         location.category = categoryName
         location.latitude = coordinate.latitude
@@ -115,9 +116,9 @@ extension LocationDetailsViewController {
         location.placemark = placemark!
 
         do {
-            try managedObjectContext.save()
+            try coreDataStack.managedObjectContext.save()
         } catch {
-            fatalCoreDataError(error)
+            coreDataStack.fatalCoreDataError(error)
         }
 
         afterDelay(0.6) { 

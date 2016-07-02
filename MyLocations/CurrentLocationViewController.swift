@@ -35,7 +35,7 @@ class CurrentLocationViewController: UIViewController {
     var lastGeocodingError: NSError?
     var timer: NSTimer?
 
-    var managedObjectContext: NSManagedObjectContext!
+    var coreDataStack: CoreDataStack!
 }
 
 
@@ -318,7 +318,7 @@ extension CurrentLocationViewController {
                 controller.coordinate = coordinate
             }
             controller.placemark = placemark
-            controller.managedObjectContext = managedObjectContext
+            controller.coreDataStack = coreDataStack
         }
     }
     

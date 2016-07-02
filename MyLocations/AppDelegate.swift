@@ -9,46 +9,12 @@
 import UIKit
 import CoreData
 
-let MyManagedObjectContextSaveDidFailNotification = "MyManagedObjectContextSaveDidFailNotification"
-
-func fatalCoreDataError(error: ErrorType) {
-    print("*** fatal error: \(error)")
-    NSNotificationCenter.defaultCenter().postNotificationName(MyManagedObjectContextSaveDidFailNotification, object: nil)
-}
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    lazy var managedObjectContext: NSManagedObjectContext = {
-        guard let modelURL = NSBundle.mainBundle().URLForResource("DataModel", withExtension: "momd") else {
-            fatalError("Could not find data model in app bundle")
-        }
-
-        guard let model = NSManagedObjectModel(contentsOfURL: modelURL) else {
-            fatalError("Error initializing model from: \(modelURL)")
-        }
-
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        let documentsDirectory = urls[0]
-
-        do {
-            let storeURL = documentsDirectory.URLByAppendingPathComponent("DataStore.sqlite")
-            let coordinator: NSPersistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
-
-
-            let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-            context.persistentStoreCoordinator = coordinator
-
-            return context
-        } catch {
-            fatalError("Error adding persistent store at \(documentsDirectory): \(error)")
-        }
-    }()
-
+    let coreDataStack: CoreDataStack = CoreDataStack.sharedInstance
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
@@ -56,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let viewControllers = tabBarController.viewControllers {
             let currentLocationViewController = viewControllers[0] as! CurrentLocationViewController
-            currentLocationViewController.managedObjectContext = managedObjectContext
+            currentLocationViewController.coreDataStack = coreDataStack
         }
 
         listenForFatalCoreDataNotifications()
@@ -93,7 +59,7 @@ extension AppDelegate {
 
     func listenForFatalCoreDataNotifications() {
 
-        NSNotificationCenter.defaultCenter().addObserverForName(MyManagedObjectContextSaveDidFailNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
+        NSNotificationCenter.defaultCenter().addObserverForName(coreDataStack.MyManagedObjectContextSaveDidFailNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
 
             let alert = UIAlertController(title: "Internal Error", message: "There is a fatal error in the app and it cannot continue.\n\n" + "Press OK to terminate the app", preferredStyle: .Alert)
 
