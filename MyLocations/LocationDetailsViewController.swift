@@ -103,7 +103,6 @@ extension LocationDetailsViewController {
         showHudInView(rootView: navigationController!.view, animated: true)
 
         afterDelay(1.5) {
-//            self.dismiss(animated: true, completion: nil)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
 
@@ -113,16 +112,15 @@ extension LocationDetailsViewController {
         location.latitude = coordinate.latitude
         location.longitude = coordinate.longitude
         location.date = date
-        location.placemark = placemark
+        location.placemark = placemark!
 
         do {
             try managedObjectContext.save()
         } catch {
-            fatalError("Error: \(error)")
+            fatalCoreDataError(error)
         }
 
         afterDelay(0.6) { 
-//            self.dismiss(animated: true, completion: nil)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }

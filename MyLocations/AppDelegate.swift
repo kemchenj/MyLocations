@@ -9,6 +9,13 @@
 import UIKit
 import CoreData
 
+let MyManagedObjectContextSaveDidFailNotification = "MyManagedObjectContextSaveDidFailNotification"
+
+func fatalCoreDataError(error: ErrorType) {
+    print("*** fatal error: \(error)")
+    NSNotificationCenter.defaultCenter().postNotificationName(MyManagedObjectContextSaveDidFailNotification, object: nil)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -52,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             currentLocationViewController.managedObjectContext = managedObjectContext
         }
 
+        listenForFatalCoreDataNotifications()
+
         return true
     }
 
@@ -76,7 +85,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+}
 
+// MARK: - Error Handling
 
+extension AppDelegate {
+
+    func listenForFatalCoreDataNotifications() {
+
+        NSNotificationCenter.defaultCenter().addObserverForName(MyManagedObjectContextSaveDidFailNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
+
+            let alert = UIAlertController(title: "Internal Error", message: "There is a fatal error in the app and it cannot continue.\n\n" + "Press OK to terminate the app", preferredStyle: .Alert)
+
+            let action = UIAlertAction(title: "OK", style: .Default, handler: { (_) in
+                let exception = NSException(name: NSInternalInconsistencyException, reason: "Fatal Core Data error", userInfo: nil)
+                exception.raise()
+            })
+
+            alert.addAction(action)
+
+            self.viewControllerForShowingAlert().presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+
+    func viewControllerForShowingAlert() -> UIViewController {
+        let rootViewController  = self.window!.rootViewController!
+        if let pressentViewController = rootViewController.presentedViewController {
+            return pressentViewController
+        } else {
+            return rootViewController
+        }
+    }
 }
 

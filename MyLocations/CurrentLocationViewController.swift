@@ -210,7 +210,6 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                 }
             }
         } else if distance < 1.0 {
-//            let timeInterval = newLocation?.timestamp.timeIntervalSince(location!.timestamp)
             let timeInterval = newLocation?.timestamp.timeIntervalSinceDate(location!.timestamp)
 
             if timeInterval > 10 {
@@ -241,7 +240,7 @@ extension CurrentLocationViewController {
             latitudeLabel.text = String(format: "%.8f",location.coordinate.latitude)
             longtitudeLabel.text = String(format: "%.8f",location.coordinate.longitude)
             tagButton.hidden = false
-            messageLabel.text = " "
+            messageLabel.text = ""
             
             if let placemark = placemark {
                 addressLabel.text = string(fromPlacemark: placemark)
@@ -314,8 +313,10 @@ extension CurrentLocationViewController {
         if segue.identifier == "TagLocation" {
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! LocationDetailsViewController
-            
-            controller.coordinate = location!.coordinate
+
+            if let coordinate = location?.coordinate {
+                controller.coordinate = coordinate
+            }
             controller.placemark = placemark
             controller.managedObjectContext = managedObjectContext
         }
