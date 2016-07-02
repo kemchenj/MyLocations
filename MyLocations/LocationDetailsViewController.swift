@@ -22,6 +22,8 @@ private let dateFormatter: NSDateFormatter = {
 
 class LocationDetailsViewController: UITableViewController, Hud {
 
+    var coreDataStack: CoreDataStack!
+
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var latitudeLabel: UILabel!
@@ -31,14 +33,26 @@ class LocationDetailsViewController: UITableViewController, Hud {
 
     var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     var placemark: CLPlacemark?
+
     var categoryName = "No Category"
+    var date = NSDate()
 
     var hudText: NSString = ""
 
-//    var managedObjectContext: NSManagedObjectContext!
-    var coreDataStack: CoreDataStack!
+    var locationToEdit: Location? {
+        didSet {
+            if let location = locationToEdit {
+                descriptionText = location.locationDescription
+                categoryName = location.category
+                date = location.date
+                placemark = location.placemark
+                coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            }
+        }
+    }
 
-    var date = NSDate()
+    var descriptionText = ""
+
 }
 
 
@@ -50,7 +64,11 @@ extension LocationDetailsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        descriptionTextView.text = ""
+        if let _ = locationToEdit {
+            navigationController?.title = "Edit Location"
+        }
+
+        descriptionTextView.text = descriptionText
         categoryLabel.text = categoryName
 
         longitudeLabel.text = String(format: "%.8f", coordinate.longitude)
@@ -100,20 +118,31 @@ extension LocationDetailsViewController {
 extension LocationDetailsViewController {
 
     @IBAction func done() {
-        hudText = "Tagged"
+
+        let location: Location
+        if let temp = locationToEdit {
+            hudText = "Updated"
+            location = temp
+        } else {
+            hudText = "Tagged"
+            location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: coreDataStack.managedObjectContext) as! Location
+        }
+
         showHudInView(rootView: navigationController!.view, animated: true)
 
         afterDelay(1.5) {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
 
-        let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: coreDataStack.managedObjectContext) as! Location
         location.locationDescription = descriptionTextView.text
         location.category = categoryName
         location.latitude = coordinate.latitude
         location.longitude = coordinate.longitude
         location.date = date
-        location.placemark = placemark!
+
+        if let placemark = placemark {
+            location.placemark = placemark
+        }
 
         do {
             try coreDataStack.managedObjectContext.save()
@@ -121,7 +150,7 @@ extension LocationDetailsViewController {
             coreDataStack.fatalCoreDataError(error)
         }
 
-        afterDelay(0.6) { 
+        afterDelay(0.6) {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -156,7 +185,7 @@ extension LocationDetailsViewController {
 
         if segue.identifier == "PickCategory" {
             let controller = segue.destinationViewController as! CategoryPickerViewController
-
+            
             controller.selectedCategoryName = categoryName
         }
     }
@@ -167,7 +196,7 @@ extension LocationDetailsViewController {
 // MARK: - Tool
 
 private extension LocationDetailsViewController {
-
+    
     func format(date: NSDate) -> String {
         return dateFormatter.stringFromDate(date)
     }
