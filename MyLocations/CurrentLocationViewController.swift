@@ -317,8 +317,12 @@ extension CurrentLocationViewController {
             if let coordinate = location?.coordinate {
                 controller.coordinate = coordinate
             }
+
             controller.placemark = placemark
+
+            print(coreDataStack)
             controller.coreDataStack = coreDataStack
+            print(controller)
         }
     }
     

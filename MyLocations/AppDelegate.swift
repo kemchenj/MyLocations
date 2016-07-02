@@ -21,8 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBarController = window?.rootViewController as! UITabBarController
 
         if let viewControllers = tabBarController.viewControllers {
-            let currentLocationViewController = viewControllers[0] as! CurrentLocationViewController
-            currentLocationViewController.coreDataStack = coreDataStack
+            for child in viewControllers {
+                if let child = child as? UINavigationController, top = child.topViewController as? LocationViewController {
+                    top.coreDataStack = coreDataStack
+                } else {
+                    let controller = child as? CurrentLocationViewController
+                    controller?.coreDataStack = coreDataStack
+                }
+            }
         }
 
         listenForFatalCoreDataNotifications()

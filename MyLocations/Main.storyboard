@@ -118,7 +118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="782" y="-392"/>
+            <point key="canvasLocation" x="1016" y="-370"/>
         </scene>
         <!--Tag Location-->
         <scene sceneID="w6l-er-Tih">
@@ -339,7 +339,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3d9-zu-sUz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1689" y="-392"/>
+            <point key="canvasLocation" x="2391" y="0.0"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="YEy-4i-qjk">
@@ -381,7 +381,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C09-x1-o74" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4JQ-ud-LYi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2133" y="-392"/>
+            <point key="canvasLocation" x="2835" y="0.0"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -411,24 +411,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" rowHeight="57" id="R2U-01-y8F">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LocationCell" rowHeight="57" id="R2U-01-y8F" customClass="LocationCell" customModule="MyLocations" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="320" height="57"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R2U-01-y8F" id="0dC-aM-6Q5">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="4BJ-k0-Bye">
-                                            <rect key="frame" x="8" y="0.0" width="304" height="56"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="4BJ-k0-Bye">
+                                            <rect key="frame" x="8" y="0.0" width="271" height="56"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DsA-5b-6Pd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="28"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DsA-5b-6Pd">
+                                                    <rect key="frame" x="0.0" y="0.0" width="271" height="28"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogj-IM-7fp">
-                                                    <rect key="frame" x="0.0" y="28" width="304" height="28"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogj-IM-7fp">
+                                                    <rect key="frame" x="0.0" y="28" width="271" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -443,6 +443,11 @@
                                         <constraint firstAttribute="bottom" secondItem="4BJ-k0-Bye" secondAttribute="bottom" id="dor-Kj-86r"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addressLabel" destination="ogj-IM-7fp" id="xk8-wD-cBZ"/>
+                                    <outlet property="descriptionLabel" destination="DsA-5b-6Pd" id="r7a-fU-GTL"/>
+                                    <segue destination="bk8-lN-FR7" kind="modal" id="Viw-Wm-Mk6"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -478,6 +483,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bk8-lN-FR7" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="S5L-h8-NB2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yW-w5-dtb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -489,10 +495,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eFP-Fa-StL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1231" y="-392"/>
+            <point key="canvasLocation" x="1927" y="0.0"/>
         </scene>
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Viw-Wm-Mk6"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -17,6 +17,7 @@
 		C89CDF9F1CF43F5E00A0A19F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C89CDF9E1CF43F5E00A0A19F /* Assets.xcassets */; };
 		C8A37E361D276490000B1B80 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E351D276490000B1B80 /* LocationViewController.swift */; };
 		C8A37E381D276A51000B1B80 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E371D276A51000B1B80 /* CoreDataStack.swift */; };
+		C8A37E3A1D27AAE8000B1B80 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E391D27AAE8000B1B80 /* LocationCell.swift */; };
 		C8A843BF1D23F37A00694A7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8A843BE1D23F37A00694A7E /* Main.storyboard */; };
 		C8A843C21D23F4FF00694A7E /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A843C01D23F4FF00694A7E /* Location+CoreDataProperties.swift */; };
 		C8A843C31D23F4FF00694A7E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A843C11D23F4FF00694A7E /* Location.swift */; };
@@ -36,6 +37,7 @@
 		C89CDFA31CF43F5E00A0A19F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8A37E351D276490000B1B80 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		C8A37E371D276A51000B1B80 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		C8A37E391D27AAE8000B1B80 /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		C8A843BE1D23F37A00694A7E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C8A843C01D23F4FF00694A7E /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C8A843C11D23F4FF00694A7E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */,
 				C8A37E371D276A51000B1B80 /* CoreDataStack.swift */,
 				C8A37E351D276490000B1B80 /* LocationViewController.swift */,
+				C8A37E391D27AAE8000B1B80 /* LocationCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				C8A37E361D276490000B1B80 /* LocationViewController.swift in Sources */,
 				C86ABFD71D221EF1003E317F /* HudView.swift in Sources */,
 				C86ABFF31D22429F003E317F /* Functions.swift in Sources */,
+				C8A37E3A1D27AAE8000B1B80 /* LocationCell.swift in Sources */,
 				C8A37E381D276A51000B1B80 /* CoreDataStack.swift in Sources */,
 				C8A843C21D23F4FF00694A7E /* Location+CoreDataProperties.swift in Sources */,
 				C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */,
