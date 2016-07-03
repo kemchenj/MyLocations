@@ -14,8 +14,6 @@ class CoreDataStack: NSObject {
 
     static var sharedInstance = CoreDataStack()
 
-    private override init() { }
-
     let MyManagedObjectContextSaveDidFailNotification = "MyManagedObjectContextSaveDidFailNotification"
 
     func fatalCoreDataError(error: ErrorType) {

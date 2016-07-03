@@ -18,6 +18,8 @@
 		C8A37E361D276490000B1B80 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E351D276490000B1B80 /* LocationViewController.swift */; };
 		C8A37E381D276A51000B1B80 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E371D276A51000B1B80 /* CoreDataStack.swift */; };
 		C8A37E3A1D27AAE8000B1B80 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E391D27AAE8000B1B80 /* LocationCell.swift */; };
+		C8A37E411D2902D7000B1B80 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A37E401D2902D7000B1B80 /* MapKit.framework */; };
+		C8A37E431D29031D000B1B80 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A37E421D29031D000B1B80 /* MapViewController.swift */; };
 		C8A843BF1D23F37A00694A7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8A843BE1D23F37A00694A7E /* Main.storyboard */; };
 		C8A843C21D23F4FF00694A7E /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A843C01D23F4FF00694A7E /* Location+CoreDataProperties.swift */; };
 		C8A843C31D23F4FF00694A7E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A843C11D23F4FF00694A7E /* Location.swift */; };
@@ -38,6 +40,8 @@
 		C8A37E351D276490000B1B80 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		C8A37E371D276A51000B1B80 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		C8A37E391D27AAE8000B1B80 /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		C8A37E401D2902D7000B1B80 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C8A37E421D29031D000B1B80 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C8A843BE1D23F37A00694A7E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C8A843C01D23F4FF00694A7E /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C8A843C11D23F4FF00694A7E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8A37E411D2902D7000B1B80 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +77,7 @@
 				C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */,
 				C8A37E371D276A51000B1B80 /* CoreDataStack.swift */,
 				C8A37E351D276490000B1B80 /* LocationViewController.swift */,
+				C8A37E421D29031D000B1B80 /* MapViewController.swift */,
 				C8A37E391D27AAE8000B1B80 /* LocationCell.swift */,
 			);
 			name = Controller;
@@ -109,6 +115,7 @@
 		C89CDF891CF43F5E00A0A19F = {
 			isa = PBXGroup;
 			children = (
+				C8A37E401D2902D7000B1B80 /* MapKit.framework */,
 				C89CDF941CF43F5E00A0A19F /* MyLocations */,
 				C89CDF931CF43F5E00A0A19F /* Products */,
 			);
@@ -219,6 +226,7 @@
 				C8D3A2521D227398009858D1 /* DataModel.xcdatamodeld in Sources */,
 				C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */,
 				C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */,
+				C8A37E431D29031D000B1B80 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

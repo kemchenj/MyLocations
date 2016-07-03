@@ -22,7 +22,7 @@ private let dateFormatter: NSDateFormatter = {
 
 class LocationDetailsViewController: UITableViewController, Hud {
 
-    var coreDataStack: CoreDataStack!
+    var coreDataStack: CoreDataStack! 
 
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var categoryLabel: UILabel!

@@ -339,7 +339,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3d9-zu-sUz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2391" y="0.0"/>
+            <point key="canvasLocation" x="2379" y="424"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="YEy-4i-qjk">
@@ -381,7 +381,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C09-x1-o74" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4JQ-ud-LYi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2835" y="0.0"/>
+            <point key="canvasLocation" x="2823" y="424"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -396,11 +396,12 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="saB-HR-XuX" kind="relationship" relationship="viewControllers" id="SNX-Je-7sb"/>
+                        <segue destination="bYY-4y-aPG" kind="relationship" relationship="viewControllers" id="eKo-zR-NIE"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="0.0" y="0.0"/>
+            <point key="canvasLocation" x="32" y="424"/>
         </scene>
         <!--Locations-->
         <scene sceneID="ClC-1W-7w3">
@@ -419,7 +420,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="4BJ-k0-Bye">
-                                            <rect key="frame" x="8" y="0.0" width="271" height="56"/>
+                                            <rect key="frame" x="16" y="0.0" width="271" height="56"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DsA-5b-6Pd">
                                                     <rect key="frame" x="0.0" y="0.0" width="271" height="28"/>
@@ -437,9 +438,9 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="4BJ-k0-Bye" firstAttribute="leading" secondItem="0dC-aM-6Q5" secondAttribute="leading" constant="8" id="35j-lu-E48"/>
+                                        <constraint firstItem="4BJ-k0-Bye" firstAttribute="leading" secondItem="0dC-aM-6Q5" secondAttribute="leading" constant="16" id="35j-lu-E48"/>
                                         <constraint firstItem="4BJ-k0-Bye" firstAttribute="top" secondItem="0dC-aM-6Q5" secondAttribute="top" id="FPg-TH-PzU"/>
-                                        <constraint firstAttribute="trailing" secondItem="4BJ-k0-Bye" secondAttribute="trailing" constant="8" id="b2E-CP-j55"/>
+                                        <constraint firstAttribute="trailing" secondItem="4BJ-k0-Bye" secondAttribute="trailing" id="b2E-CP-j55"/>
                                         <constraint firstAttribute="bottom" secondItem="4BJ-k0-Bye" secondAttribute="bottom" id="dor-Kj-86r"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -478,6 +479,60 @@
             </objects>
             <point key="canvasLocation" x="782" y="424"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="Bj5-VU-NT3">
+            <objects>
+                <viewController id="bYY-4y-aPG" customClass="MapViewController" customModule="MyLocations" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pSA-Q4-SEm"/>
+                        <viewControllerLayoutGuide type="bottom" id="LQV-GE-fdj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tGB-9h-KxW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JgY-0Z-ZdF">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                            </mapView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KCg-2R-Xm0">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <items>
+                                    <navigationItem title="Map" id="7Z2-5u-iLl">
+                                        <barButtonItem key="leftBarButtonItem" title="Locations" id="Wrv-L8-3Nk">
+                                            <connections>
+                                                <action selector="showLocations" destination="bYY-4y-aPG" id="dbr-7O-8jB"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="User" id="c1E-eL-eAl">
+                                            <connections>
+                                                <action selector="showUser" destination="bYY-4y-aPG" id="WJN-GR-2mm"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="KCg-2R-Xm0" firstAttribute="leading" secondItem="tGB-9h-KxW" secondAttribute="leading" id="5EI-eU-ITF"/>
+                            <constraint firstItem="LQV-GE-fdj" firstAttribute="top" secondItem="JgY-0Z-ZdF" secondAttribute="bottom" id="7AV-Wa-GJb"/>
+                            <constraint firstItem="JgY-0Z-ZdF" firstAttribute="top" secondItem="tGB-9h-KxW" secondAttribute="top" id="GiN-Wz-08b"/>
+                            <constraint firstAttribute="trailing" secondItem="KCg-2R-Xm0" secondAttribute="trailing" id="V5g-1A-BZx"/>
+                            <constraint firstItem="KCg-2R-Xm0" firstAttribute="top" secondItem="pSA-Q4-SEm" secondAttribute="bottom" id="h07-tH-JCM"/>
+                            <constraint firstAttribute="trailing" secondItem="JgY-0Z-ZdF" secondAttribute="trailing" id="idY-HS-HNb"/>
+                            <constraint firstItem="JgY-0Z-ZdF" firstAttribute="leading" secondItem="tGB-9h-KxW" secondAttribute="leading" id="oYY-FB-yhX"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" id="fBo-BK-PnS"/>
+                    <connections>
+                        <outlet property="mapView" destination="JgY-0Z-ZdF" id="2ys-9z-boO"/>
+                        <segue destination="bk8-lN-FR7" kind="modal" identifier="EditLocation" id="1n4-Jh-67K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MlA-mw-wi3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1016" y="1243"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="rXc-Jc-seQ">
             <objects>
@@ -495,7 +550,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eFP-Fa-StL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1927" y="0.0"/>
+            <point key="canvasLocation" x="1915" y="424"/>
         </scene>
     </scenes>
     <resources>

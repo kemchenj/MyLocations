@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             for child in viewControllers {
                 if let child = child as? UINavigationController, top = child.topViewController as? LocationViewController {
                     top.coreDataStack = coreDataStack
+                    let _ = top.view
                 } else {
                     let controller = child as? CurrentLocationViewController
                     controller?.coreDataStack = coreDataStack
