@@ -109,6 +109,15 @@ extension LocationDetailsViewController {
 
         return text
     }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "PickCategory" {
+            let controller = segue.destinationViewController as! CategoryPickerViewController
+            
+            controller.selectedCategoryName = categoryName
+        }
+    }
 }
 
 
@@ -176,28 +185,36 @@ extension LocationDetailsViewController {
 }
 
 
-
-// MARK: - Segue
-
-extension LocationDetailsViewController {
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "PickCategory" {
-            let controller = segue.destinationViewController as! CategoryPickerViewController
-            
-            controller.selectedCategoryName = categoryName
-        }
-    }
-}
-
-
-
 // MARK: - Tool
 
 private extension LocationDetailsViewController {
     
     func format(date: NSDate) -> String {
         return dateFormatter.stringFromDate(date)
+    }
+}
+
+
+// MARK: - Image Picker
+
+extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func takePhotoWithCamera() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .Camera
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

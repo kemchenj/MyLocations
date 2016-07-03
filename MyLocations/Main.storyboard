@@ -510,6 +510,9 @@
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
+                                <connections>
+                                    <outlet property="delegate" destination="bYY-4y-aPG" id="78I-Nm-E0P"/>
+                                </connections>
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
