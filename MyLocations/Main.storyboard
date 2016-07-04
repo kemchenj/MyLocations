@@ -190,13 +190,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0A-pf-f56">
-                                                    <rect key="frame" x="15" y="12" width="76" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="enF-gt-sV0">
+                                                    <rect key="frame" x="15" y="0.0" width="272" height="43"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0A-pf-f56">
+                                                            <rect key="frame" x="0.0" y="0.0" width="272" height="43"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="xyZ-KO-qa9">
+                                                            <rect key="frame" x="272" y="0.0" width="0.0" height="43"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="enF-gt-sV0" secondAttribute="bottom" id="8JX-IK-d8x"/>
+                                                <constraint firstItem="enF-gt-sV0" firstAttribute="top" secondItem="XPt-8G-5ax" secondAttribute="top" id="ES3-yO-AmZ"/>
+                                                <constraint firstItem="enF-gt-sV0" firstAttribute="leading" secondItem="XPt-8G-5ax" secondAttribute="leading" constant="15" id="bBF-HI-2O3"/>
+                                                <constraint firstAttribute="trailing" secondItem="enF-gt-sV0" secondAttribute="trailing" id="qrm-7r-rkJ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -329,10 +343,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addPhotoLabel" destination="U0A-pf-f56" id="0US-Ld-1N6"/>
                         <outlet property="addressLabel" destination="9js-3b-FQU" id="dDm-D6-arT"/>
                         <outlet property="categoryLabel" destination="M3y-Sv-G7A" id="CF1-kD-De2"/>
                         <outlet property="dateLabel" destination="ZT3-Wm-vMe" id="tn9-Wh-Zow"/>
                         <outlet property="descriptionTextView" destination="gzx-kE-8g0" id="2nY-mb-moZ"/>
+                        <outlet property="imageView" destination="xyZ-KO-qa9" id="QUT-zs-An3"/>
                         <outlet property="latitudeLabel" destination="86L-0n-2he" id="0Xv-L4-p9w"/>
                         <outlet property="longitudeLabel" destination="rR3-UW-bft" id="8L5-yy-6Lk"/>
                     </connections>
@@ -510,9 +526,6 @@
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
-                                <connections>
-                                    <outlet property="delegate" destination="bYY-4y-aPG" id="78I-Nm-E0P"/>
-                                </connections>
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
