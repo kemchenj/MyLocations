@@ -61,6 +61,22 @@ class LocationDetailsViewController: UITableViewController, Hud {
 }
 
 
+// MARK: - Core Data
+
+extension LocationDetailsViewController {
+
+    func listenForBackgroundNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
+
+            if self.presentedViewController != nil {
+                self.dismissViewControllerAnimated(false, completion: nil)
+            }
+
+            self.descriptionTextView.resignFirstResponder()
+        }
+    }
+}
+
 
 // MARK: - View
 
@@ -86,6 +102,8 @@ extension LocationDetailsViewController {
         }
 
         dateLabel.text = format(date)
+
+        listenForBackgroundNotification()
     }
 
 
