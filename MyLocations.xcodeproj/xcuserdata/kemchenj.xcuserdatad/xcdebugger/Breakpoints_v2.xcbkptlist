@@ -28,13 +28,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyLocations/LocationDetailsViewController.swift"
-            timestampString = "489730425.664221"
+            timestampString = "489743538.63084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "LocationDetailsViewController"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyLocations/CurrentLocationViewController.swift"
+            timestampString = "489749350.495733"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "animationDidStop(_:finished:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -54,6 +54,7 @@ extension MapViewController {
             controller.locationToEdit = location
         }
     }
+
 }
 
 
@@ -137,6 +138,7 @@ extension MapViewController: MKMapViewDelegate {
                                                    green: 0.82,
                                                    blue: 0.4,
                                                    alpha: 1)
+            annotationView?.tintColor = UIColor(white: 0, alpha: 0.5)
 
             // 4. 给Annotation View创建按钮, 类似于cell的detail
             let rightButton = UIButton(type: .DetailDisclosure)

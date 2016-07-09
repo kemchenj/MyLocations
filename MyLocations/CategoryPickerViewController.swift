@@ -36,10 +36,13 @@ extension CategoryPickerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.backgroundColor = UIColor.blackColor()
+        tableView.separatorColor = UIColor(white: 1, alpha: 0.2)
+        tableView.indicatorStyle = .White
         
         for i in 0 ..< categories.count {
             if categories[i] == selectedCategoryName {
-//                selectedIndexPath = NSIndexPath(row: i, section: 0)
                 selectedIndexPath = NSIndexPath(forItem: i, inSection: 0)
                 break
             }
@@ -108,13 +111,18 @@ extension CategoryPickerViewController {
             selectedIndexPath = indexPath
         }
     }
-}
 
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
+        cell.backgroundColor = UIColor.blackColor()
 
-// MARK: - Segue
+        if let textLabel = cell.textLabel {
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.highlightedTextColor = textLabel.textColor
+        }
 
-extension CategoryPickerViewController {
-    
-    
+        let selectionView = UIView(frame: CGRect.zero)
+        selectionView.backgroundColor = UIColor(white: 1, alpha: 0.2)
+        cell.selectedBackgroundView = selectionView
+    }
 }

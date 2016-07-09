@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */; };
 		C8319A251D168ABA00B26839 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8319A241D168ABA00B26839 /* CategoryPickerViewController.swift */; };
+		C86503CB1D30D66000E96C64 /* MyImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86503CA1D30D66000E96C64 /* MyImagePickerController.swift */; };
 		C86ABFD71D221EF1003E317F /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD61D221EF1003E317F /* HudView.swift */; };
 		C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD91D221F16003E317F /* ShowHud.swift */; };
 		C86ABFF31D22429F003E317F /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFF21D22429F003E317F /* Functions.swift */; };
@@ -33,6 +34,8 @@
 /* Begin PBXFileReference section */
 		C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
 		C8319A241D168ABA00B26839 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
+		C86503CA1D30D66000E96C64 /* MyImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyImagePickerController.swift; sourceTree = "<group>"; };
+		C86503CC1D30F9CA00E96C64 /* Sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sound.caf; sourceTree = "<group>"; };
 		C86ABFD61D221EF1003E317F /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		C86ABFD91D221F16003E317F /* ShowHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowHud.swift; sourceTree = "<group>"; };
 		C86ABFF21D22429F003E317F /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -84,6 +87,7 @@
 				C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */,
 				C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */,
 				C879354A1D30B543000B435F /* MyNavigationController.swift */,
+				C86503CA1D30D66000E96C64 /* MyImagePickerController.swift */,
 				C8A37E351D276490000B1B80 /* LocationViewController.swift */,
 				C8A37E421D29031D000B1B80 /* MapViewController.swift */,
 				C87935481D30B4AA000B435F /* MyTabBarController.swift */,
@@ -149,6 +153,7 @@
 				C86AC0001D22465C003E317F /* Data */,
 				C86ABFF91D2244CC003E317F /* Other */,
 				C89CDFA31CF43F5E00A0A19F /* Info.plist */,
+				C86503CC1D30F9CA00E96C64 /* Sound.caf */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -239,6 +244,7 @@
 				C86ABFF31D22429F003E317F /* Functions.swift in Sources */,
 				C8A37E3A1D27AAE8000B1B80 /* LocationCell.swift in Sources */,
 				C8A37E381D276A51000B1B80 /* CoreDataStack.swift in Sources */,
+				C86503CB1D30D66000E96C64 /* MyImagePickerController.swift in Sources */,
 				C8A843C21D23F4FF00694A7E /* Location+CoreDataProperties.swift in Sources */,
 				C87935451D30A7E6000B435F /* UIImage+Resize.swift in Sources */,
 				C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */,
@@ -341,6 +347,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MyLocations/Info.plist;
@@ -356,6 +363,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MyLocations/Info.plist;
