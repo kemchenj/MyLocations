@@ -120,11 +120,13 @@ extension LocationViewController {
 extension LocationViewController {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-
-        let location = fetchedResultsController.objectAtIndexPath(indexPath)
-        coreDataStack.managedObjectContext.deleteObject(location as! Location)
-        coreDataStack.saveAllContext()
-
+        if editingStyle == .Delete {
+            let location = fetchedResultsController.objectAtIndexPath(indexPath) as! Location
+            location.removePhotoFile()
+            coreDataStack.managedObjectContext.deleteObject(location)
+            coreDataStack.saveAllContext()
+        }
+        
         reloadData()
     }
 
@@ -170,15 +172,18 @@ extension LocationViewController: NSFetchedResultsControllerDelegate {
         case .Insert:
             print("*** NSFetchedResultsChangeInsert (object)")
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+
         case .Delete:
             print("*** NSFetchedResultsChangeDelete (object)")
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+
         case .Update:
             print("*** NSFetchedResultsChangeUpdate (object)")
             if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? LocationCell{
                 let location = fetchedResultsController.objectAtIndexPath(indexPath!) as! Location
                 cell.configure(forLocation: location)
             }
+
         case .Move:
             print("*** NSFetchedResultsChangeMove (object)")
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
@@ -192,11 +197,14 @@ extension LocationViewController: NSFetchedResultsControllerDelegate {
         case .Insert:
             tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
             print("*** NSFetchedResultsChangeInsert (section)")
+
         case .Delete:
             tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
             print("*** NSFetchedResultsChangeDelete (section)")
+
         case .Update:
             print("*** NSFetchedResultsChangeUpdate (section)")
+
         case .Move:
             print("*** NSFetchedResultsChangeMove (section)")
         }

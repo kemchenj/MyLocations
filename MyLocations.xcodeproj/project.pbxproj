@@ -12,6 +12,10 @@
 		C86ABFD71D221EF1003E317F /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD61D221EF1003E317F /* HudView.swift */; };
 		C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFD91D221F16003E317F /* ShowHud.swift */; };
 		C86ABFF31D22429F003E317F /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86ABFF21D22429F003E317F /* Functions.swift */; };
+		C87935451D30A7E6000B435F /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87935441D30A7E6000B435F /* UIImage+Resize.swift */; };
+		C87935471D30AE34000B435F /* String+AddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87935461D30AE34000B435F /* String+AddText.swift */; };
+		C87935491D30B4AA000B435F /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87935481D30B4AA000B435F /* MyTabBarController.swift */; };
+		C879354B1D30B543000B435F /* MyNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C879354A1D30B543000B435F /* MyNavigationController.swift */; };
 		C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */; };
 		C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */; };
 		C89CDF9F1CF43F5E00A0A19F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C89CDF9E1CF43F5E00A0A19F /* Assets.xcassets */; };
@@ -32,6 +36,10 @@
 		C86ABFD61D221EF1003E317F /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		C86ABFD91D221F16003E317F /* ShowHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowHud.swift; sourceTree = "<group>"; };
 		C86ABFF21D22429F003E317F /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		C87935441D30A7E6000B435F /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		C87935461D30AE34000B435F /* String+AddText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+AddText.swift"; sourceTree = "<group>"; };
+		C87935481D30B4AA000B435F /* MyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
+		C879354A1D30B543000B435F /* MyNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNavigationController.swift; sourceTree = "<group>"; };
 		C89CDF921CF43F5E00A0A19F /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C89CDF951CF43F5E00A0A19F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -75,9 +83,10 @@
 				C8319A241D168ABA00B26839 /* CategoryPickerViewController.swift */,
 				C89CDF971CF43F5E00A0A19F /* CurrentLocationViewController.swift */,
 				C8319A221D1644AC00B26839 /* LocationDetailsViewController.swift */,
-				C8A37E371D276A51000B1B80 /* CoreDataStack.swift */,
+				C879354A1D30B543000B435F /* MyNavigationController.swift */,
 				C8A37E351D276490000B1B80 /* LocationViewController.swift */,
 				C8A37E421D29031D000B1B80 /* MapViewController.swift */,
+				C87935481D30B4AA000B435F /* MyTabBarController.swift */,
 				C8A37E391D27AAE8000B1B80 /* LocationCell.swift */,
 			);
 			name = Controller;
@@ -88,6 +97,8 @@
 			children = (
 				C86ABFD81D221F00003E317F /* Hud */,
 				C86ABFF21D22429F003E317F /* Functions.swift */,
+				C87935441D30A7E6000B435F /* UIImage+Resize.swift */,
+				C87935461D30AE34000B435F /* String+AddText.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -106,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				C8A843C01D23F4FF00694A7E /* Location+CoreDataProperties.swift */,
+				C8A37E371D276A51000B1B80 /* CoreDataStack.swift */,
 				C8A843C11D23F4FF00694A7E /* Location.swift */,
 				C8D3A2501D227398009858D1 /* DataModel.xcdatamodeld */,
 			);
@@ -175,6 +187,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = T28QC3M4TY;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -216,17 +233,21 @@
 				C8319A231D1644AC00B26839 /* LocationDetailsViewController.swift in Sources */,
 				C8A843C31D23F4FF00694A7E /* Location.swift in Sources */,
 				C8A37E361D276490000B1B80 /* LocationViewController.swift in Sources */,
+				C879354B1D30B543000B435F /* MyNavigationController.swift in Sources */,
 				C86ABFD71D221EF1003E317F /* HudView.swift in Sources */,
+				C87935491D30B4AA000B435F /* MyTabBarController.swift in Sources */,
 				C86ABFF31D22429F003E317F /* Functions.swift in Sources */,
 				C8A37E3A1D27AAE8000B1B80 /* LocationCell.swift in Sources */,
 				C8A37E381D276A51000B1B80 /* CoreDataStack.swift in Sources */,
 				C8A843C21D23F4FF00694A7E /* Location+CoreDataProperties.swift in Sources */,
+				C87935451D30A7E6000B435F /* UIImage+Resize.swift in Sources */,
 				C89CDF961CF43F5E00A0A19F /* AppDelegate.swift in Sources */,
 				C8319A251D168ABA00B26839 /* CategoryPickerViewController.swift in Sources */,
 				C8D3A2521D227398009858D1 /* DataModel.xcdatamodeld in Sources */,
 				C86ABFDA1D221F16003E317F /* ShowHud.swift in Sources */,
 				C89CDF981CF43F5E00A0A19F /* CurrentLocationViewController.swift in Sources */,
 				C8A37E431D29031D000B1B80 /* MapViewController.swift in Sources */,
+				C87935471D30AE34000B435F /* String+AddText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

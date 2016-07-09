@@ -18,11 +18,12 @@ private let dateFormatter: NSDateFormatter = {
 }()
 
 
+
 // MARK: - Class
 
 class LocationDetailsViewController: UITableViewController, Hud {
 
-    var coreDataStack: CoreDataStack! 
+    var coreDataStack: CoreDataStack!
 
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var categoryLabel: UILabel!
@@ -43,6 +44,7 @@ class LocationDetailsViewController: UITableViewController, Hud {
     var date = NSDate()
 
     var hudText: NSString = ""
+    var descriptionText = ""
 
     var locationToEdit: Location? {
         didSet {
@@ -56,9 +58,15 @@ class LocationDetailsViewController: UITableViewController, Hud {
         }
     }
 
-    var descriptionText = ""
+    var observer: AnyObject!
+
+    deinit {
+        print("*** deinit \(self)")
+        NSNotificationCenter.defaultCenter().removeObserver(observer)
+    }
 
 }
+
 
 
 // MARK: - Core Data
@@ -66,16 +74,19 @@ class LocationDetailsViewController: UITableViewController, Hud {
 extension LocationDetailsViewController {
 
     func listenForBackgroundNotification() {
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
+        observer =  NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] _ in  // 告诉闭包self会被捕获, 但是是以指针的形式被捕获
 
-            if self.presentedViewController != nil {
-                self.dismissViewControllerAnimated(false, completion: nil)
+            if let strongSelf = self { // self在这里会以一个optional的形式存在, 所以必须用ifsa拆包
+                if strongSelf.presentedViewController != nil {
+                    strongSelf.dismissViewControllerAnimated(false, completion: nil)
+                }
+
+                strongSelf.descriptionTextView.resignFirstResponder()
             }
-
-            self.descriptionTextView.resignFirstResponder()
         }
     }
 }
+
 
 
 // MARK: - View
@@ -85,8 +96,13 @@ extension LocationDetailsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let _ = locationToEdit {
-            navigationController?.title = "Edit Location"
+        if let location = locationToEdit {
+            title = "Edit Location"
+            if location.hasPhoto {
+                if let image = location.photoImage {
+                    showImage(image)
+                }
+            }
         }
 
         descriptionTextView.text = descriptionText
@@ -109,35 +125,46 @@ extension LocationDetailsViewController {
 
     private func string(fromPlacemark placemark: CLPlacemark) -> String {
 
-        var text = ""
+//        var text = ""
+//
+//        if let s = placemark.subThoroughfare {
+//            text += s + " "
+//        }
+//        if let s = placemark.thoroughfare {
+//            text += s + " "
+//        }
+//        if let s = placemark.locality {
+//            text += s + " "
+//        }
+//        if let s = placemark.administrativeArea {
+//            text += "\n" + s + " "
+//        }
+//        if let s = placemark.postalCode {
+//            text += s + " "
+//        }
+//        if let s = placemark.country {
+//            text += s
+//        }
 
-        if let s = placemark.subThoroughfare {
-            text += s + " "
-        }
-        if let s = placemark.thoroughfare {
-            text += s + " "
-        }
-        if let s = placemark.locality {
-            text += s + " "
-        }
-        if let s = placemark.administrativeArea {
-            text += "\n" + s + " "
-        }
-        if let s = placemark.postalCode {
-            text += s + " "
-        }
-        if let s = placemark.country {
-            text += s
-        }
+        var line1 = ""
+        line1.add(placemark.subThoroughfare)
+        line1.add(placemark.thoroughfare, withSeperator: " ")
 
-        return text
+        var line2 = ""
+        line2.add(placemark.locality)
+        line2.add(placemark.administrativeArea, withSeperator: " ")
+        line2.add(placemark.postalCode, withSeperator: " ")
+
+        line1.add(line2, withSeperator: "\n")
+
+        return line1
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "PickCategory" {
             let controller = segue.destinationViewController as! CategoryPickerViewController
-            
+
             controller.selectedCategoryName = categoryName
         }
     }
@@ -158,6 +185,8 @@ extension LocationDetailsViewController {
         } else {
             hudText = "Tagged"
             location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: coreDataStack.managedObjectContext) as! Location
+            // 新建location对象的时候, photoID会被初始化为0, 所以需要重新
+            location.photoID = nil
         }
 
         showHudInView(rootView: navigationController!.view, animated: true)
@@ -174,6 +203,20 @@ extension LocationDetailsViewController {
 
         if let placemark = placemark {
             location.placemark = placemark
+        }
+
+        if let image = image {
+            if !location.hasPhoto {
+                location.photoID = Location.nextPhotoID()
+            }
+
+            if let data = UIImageJPEGRepresentation(image, 0.5) {
+                do {
+                    try data.writeToFile(location.photoPath, options: .DataWritingAtomic)
+                } catch {
+                    print("Error writing file: \(error)")
+                }
+            }
         }
 
         do {
@@ -232,7 +275,6 @@ extension LocationDetailsViewController {
                                              height: 10000)
             addressLabel.sizeToFit()
             addressLabel.frame.origin.x = view.bounds.width - addressLabel.frame.size.width - 15
-
             return addressLabel.frame.size.height + 20
 
         default:
@@ -240,16 +282,6 @@ extension LocationDetailsViewController {
         }
     }
 
-}
-
-
-// MARK: - Tool
-
-private extension LocationDetailsViewController {
-    
-    func format(date: NSDate) -> String {
-        return dateFormatter.stringFromDate(date)
-    }
 }
 
 
@@ -318,14 +350,24 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
         if let image = image {
             showImage(image)
         }
-
+        
         tableView.reloadData()
-
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-
+        
         dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+
+// MARK: - Tool
+
+private extension LocationDetailsViewController {
+    
+    func format(date: NSDate) -> String {
+        return dateFormatter.stringFromDate(date)
     }
 }
