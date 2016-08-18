@@ -9,8 +9,8 @@
 import UIKit
 
 class MyImagePickerController: UIImagePickerController {
-
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

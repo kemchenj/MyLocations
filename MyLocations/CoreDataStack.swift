@@ -16,9 +16,9 @@ class CoreDataStack: NSObject {
 
     let MyManagedObjectContextSaveDidFailNotification = "MyManagedObjectContextSaveDidFailNotification"
 
-    func fatalCoreDataError(error: ErrorType) {
+    func fatalCoreDataError(_ error: Error) {
         print("*** fatal error: \(error)")
-        NSNotificationCenter.defaultCenter().postNotificationName(MyManagedObjectContextSaveDidFailNotification, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: MyManagedObjectContextSaveDidFailNotification), object: nil)
     }
 
     func saveAllContext() {
@@ -31,10 +31,10 @@ class CoreDataStack: NSObject {
         }
     }
 
-    lazy var storeURL: NSURL = {
-        let url = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last
+    lazy var storeURL: URL = {
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
 
-        guard let newURL = url?.URLByAppendingPathComponent("DataStore.sqlite") else {
+        guard let newURL = url?.appendingPathComponent("DataStore.sqlite") else {
             fatalError("Error to find sqlite file")
         }
 
@@ -42,11 +42,11 @@ class CoreDataStack: NSObject {
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
-        guard let modelURL = NSBundle.mainBundle().URLForResource("DataModel", withExtension: "momd") else {
+        guard let modelURL = Bundle.main.url(forResource: "DataModel", withExtension: "momd") else {
             fatalError("Could not find data model in app bundle")
         }
 
-        guard let model = NSManagedObjectModel(contentsOfURL: modelURL) else {
+        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("Error initializing model from: \(modelURL)")
         }
 
@@ -54,7 +54,7 @@ class CoreDataStack: NSObject {
     }()
     
     lazy var managedObjectContext: NSManagedObjectContext = {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
 
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
 
@@ -65,7 +65,7 @@ class CoreDataStack: NSObject {
         let coordinator: NSPersistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
 
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: self.storeURL, options: [NSMigratePersistentStoresAutomaticallyOption: true,
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.storeURL, options: [NSMigratePersistentStoresAutomaticallyOption: true,
                 NSInferMappingModelAutomaticallyOption: true])
         } catch {
             fatalError("Error adding persistent store at document: \(error)")

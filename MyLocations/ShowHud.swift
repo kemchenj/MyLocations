@@ -20,7 +20,7 @@ extension Hud where Self: UIViewController {
         let hudView = HudView.hudInView("Tagged", animated: true)
 
         view.addSubview(hudView)
-        view.userInteractionEnabled = false
+        view.isUserInteractionEnabled = false
     }
 
 

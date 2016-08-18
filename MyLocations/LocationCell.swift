@@ -17,9 +17,9 @@ class LocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        backgroundColor = UIColor.blackColor()
+        backgroundColor = UIColor.black
         
-        descriptionLabel.textColor = UIColor.whiteColor()
+        descriptionLabel.textColor = UIColor.white
         descriptionLabel.highlightedTextColor = descriptionLabel.textColor
 
         addressLabel.textColor = UIColor(white: 1.0, alpha: 0.4)
@@ -49,7 +49,7 @@ class LocationCell: UITableViewCell {
         photoImageView.image = imageForLocation(location)
     }
 
-    func imageForLocation(location: Location) -> UIImage {
+    func imageForLocation(_ location: Location) -> UIImage {
         if location.hasPhoto, let image = location.photoImage {
             return image.resizedImage(with: CGSize(width: 52, height: 52))
         }

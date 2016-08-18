@@ -10,10 +10,10 @@ import UIKit
 import CoreLocation
 import CoreData
 
-private let dateFormatter: NSDateFormatter = {
-    let formatter = NSDateFormatter()
-    formatter.dateStyle = .MediumStyle
-    formatter.timeStyle = .ShortStyle
+fileprivate let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    formatter.timeStyle = .short
     return formatter
 }()
 
@@ -41,7 +41,7 @@ class LocationDetailsViewController: UITableViewController, Hud {
     var placemark: CLPlacemark?
 
     var categoryName = "No Category"
-    var date = NSDate()
+    var date = Date()
 
     var hudText: NSString = ""
     var descriptionText = ""
@@ -62,7 +62,7 @@ class LocationDetailsViewController: UITableViewController, Hud {
 
     deinit {
         print("*** deinit \(self)")
-        NSNotificationCenter.defaultCenter().removeObserver(observer)
+        NotificationCenter.default.removeObserver(observer)
     }
 
 }
@@ -74,11 +74,11 @@ class LocationDetailsViewController: UITableViewController, Hud {
 extension LocationDetailsViewController {
 
     func listenForBackgroundNotification() {
-        observer =  NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] _ in  // 告诉闭包self会被捕获, 但是是以指针的形式被捕获
+        observer =  NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidEnterBackground, object: nil, queue: OperationQueue.main) { [weak self] _ in  // 告诉闭包self会被捕获, 但是是以指针的形式被捕获
 
-            if let strongSelf = self { // self在这里会以一个optional的形式存在, 所以必须用ifsa拆包
+            if let strongSelf = self { // self在这里会以一个optional的形式存在, 所以必须用iflet拆包
                 if strongSelf.presentedViewController != nil {
-                    strongSelf.dismissViewControllerAnimated(false, completion: nil)
+                    strongSelf.dismiss(animated: false, completion: nil)
                 }
 
                 strongSelf.descriptionTextView.resignFirstResponder()
@@ -121,43 +121,22 @@ extension LocationDetailsViewController {
 
         listenForBackgroundNotification()
 
-        tableView.backgroundColor = UIColor.blackColor()
+        tableView.backgroundColor = UIColor.black
         tableView.separatorColor = UIColor(white: 1, alpha: 0.2)
-        tableView.indicatorStyle = .White
+        tableView.indicatorStyle = .white
 
-        descriptionTextView.textColor = UIColor.whiteColor()
-        descriptionTextView.backgroundColor = UIColor.blackColor()
+        descriptionTextView.textColor = UIColor.white
+        descriptionTextView.backgroundColor = UIColor.black
 
-        addPhotoLabel.textColor = UIColor.whiteColor()
+        addPhotoLabel.textColor = UIColor.white
         addPhotoLabel.backgroundColor = addPhotoLabel.textColor
 
-        addressLabel.textColor = UIColor.whiteColor()
+        addressLabel.textColor = UIColor.white
         addressLabel.highlightedTextColor = addressLabel.textColor
     }
 
 
-    private func string(fromPlacemark placemark: CLPlacemark) -> String {
-
-//        var text = ""
-//
-//        if let s = placemark.subThoroughfare {
-//            text += s + " "
-//        }
-//        if let s = placemark.thoroughfare {
-//            text += s + " "
-//        }
-//        if let s = placemark.locality {
-//            text += s + " "
-//        }
-//        if let s = placemark.administrativeArea {
-//            text += "\n" + s + " "
-//        }
-//        if let s = placemark.postalCode {
-//            text += s + " "
-//        }
-//        if let s = placemark.country {
-//            text += s
-//        }
+     func string(fromPlacemark placemark: CLPlacemark) -> String {
 
         var line1 = ""
         line1.add(placemark.subThoroughfare)
@@ -173,10 +152,10 @@ extension LocationDetailsViewController {
         return line1
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "PickCategory" {
-            let controller = segue.destinationViewController as! CategoryPickerViewController
+            let controller = segue.destination as! CategoryPickerViewController
 
             controller.selectedCategoryName = categoryName
         }
@@ -197,7 +176,7 @@ extension LocationDetailsViewController {
             location = temp
         } else {
             hudText = "Tagged"
-            location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: coreDataStack.managedObjectContext) as! Location
+            location = NSEntityDescription.insertNewObject(forEntityName: "Location", into: coreDataStack.managedObjectContext) as! Location
             // 新建location对象的时候, photoID会被初始化为0, 所以需要重新
             location.photoID = nil
         }
@@ -205,7 +184,7 @@ extension LocationDetailsViewController {
         showHudInView(rootView: navigationController!.view, animated: true)
 
         afterDelay(1.5) {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
 
         location.locationDescription = descriptionTextView.text
@@ -220,12 +199,12 @@ extension LocationDetailsViewController {
 
         if let image = image {
             if !location.hasPhoto {
-                location.photoID = Location.nextPhotoID()
+                location.photoID = Location.nextPhotoID() as NSNumber
             }
 
             if let data = UIImageJPEGRepresentation(image, 0.5) {
                 do {
-                    try data.writeToFile(location.photoPath, options: .DataWritingAtomic)
+                    try data.write(to: URL(fileURLWithPath: location.photoPath), options: .atomic)
                 } catch {
                     print("Error writing file: \(error)")
                 }
@@ -239,17 +218,17 @@ extension LocationDetailsViewController {
         }
 
         afterDelay(0.6) {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 
     @IBAction func cancel() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func categoryPickerDidPickCategory(segue: UIStoryboardSegue) {
+    @IBAction func categoryPickerDidPickCategory(_ segue: UIStoryboardSegue) {
 
-        let controller = segue.sourceViewController as! CategoryPickerViewController
+        let controller = segue.source as! CategoryPickerViewController
         categoryName = controller.selectedCategoryName
         categoryLabel.text = categoryName
     }
@@ -261,27 +240,27 @@ extension LocationDetailsViewController {
 
 extension LocationDetailsViewController {
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        switch (indexPath.section, indexPath.row) {
+        switch ((indexPath as NSIndexPath).section, (indexPath as NSIndexPath).row) {
         case (0,0):
             descriptionTextView.becomeFirstResponder()
         case (1,0):
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
             pickPhoto()
         default:
             print("")
         }
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        switch (indexPath.section, indexPath.row) {
+        switch ((indexPath as NSIndexPath).section, (indexPath as NSIndexPath).row) {
         case (0,0):
             return 88
 
         case (1,_):
-            return imageView.hidden ? 44 : 260
+            return imageView.isHidden ? 44 : 260
 
         case (2,2):
             addressLabel.frame.size = CGSize(width: view.bounds.width - 115,
@@ -295,12 +274,12 @@ extension LocationDetailsViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        cell.backgroundColor = UIColor.blackColor()
+        cell.backgroundColor = UIColor.black
 
         if let textLabel = cell.textLabel {
-            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textColor = UIColor.white
             textLabel.highlightedTextColor = textLabel.textColor
         }
 
@@ -309,17 +288,17 @@ extension LocationDetailsViewController {
             detailLabel.highlightedTextColor = detailLabel.textColor
         }
 
-        let selectionView = UIView(frame: CGRectZero)
+        let selectionView = UIView(frame: CGRect.zero)
         selectionView.backgroundColor = UIColor(white: 1, alpha: 0.2)
         cell.selectedBackgroundView = selectionView
 
-        if indexPath.row == 2 {
+        if (indexPath as NSIndexPath).row == 2 {
             let addressLabel = cell.viewWithTag(100) as! UILabel
             addressLabel.textColor = UIColor(white: 1, alpha: 0.4)
             addressLabel.highlightedTextColor = addressLabel.textColor
 
             let titleLabel = cell.viewWithTag(101) as! UILabel
-            titleLabel.textColor = UIColor.whiteColor()
+            titleLabel.textColor = UIColor.white
             titleLabel.highlightedTextColor = titleLabel.textColor
         }
     }
@@ -331,15 +310,15 @@ extension LocationDetailsViewController {
 
 extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func showImage(image: UIImage) {
+    func showImage(_ image: UIImage) {
         imageView.image = image
-        imageView.hidden = false
+        imageView.isHidden = false
         imageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
-        addPhotoLabel.hidden = true
+        addPhotoLabel.isHidden = true
     }
 
     func pickPhoto() {
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             showPhotoMenu()
         } else {
             choosePhotoFromLibrary()
@@ -348,14 +327,14 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
 
     func showPhotoMenu() {
 
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let takePhotoAction = UIAlertAction(title: "Take Photo", style: .Default) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let takePhotoAction = UIAlertAction(title: "Take Photo", style: .default) {
             _ in
             self.takePhotoWithCamera()
         }
-        let chooseFromLibraryAction = UIAlertAction(title: "Choose From Library", style: .Default) {
+        let chooseFromLibraryAction = UIAlertAction(title: "Choose From Library", style: .default) {
             _ in
             self.choosePhotoFromLibrary()
         }
@@ -364,30 +343,30 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
         alertController.addAction(takePhotoAction)
         alertController.addAction(chooseFromLibraryAction)
 
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 
     func takePhotoWithCamera() {
         let imagePicker = MyImagePickerController()
-        imagePicker.sourceType = .Camera
+        imagePicker.sourceType = .camera
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.view.tintColor = view.tintColor
 
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
 
     func choosePhotoFromLibrary() {
         let imagePicker = MyImagePickerController()
-        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.view.tintColor = view.tintColor
 
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
         image = info[UIImagePickerControllerEditedImage] as? UIImage
 
@@ -397,12 +376,12 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
         
         tableView.reloadData()
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -411,7 +390,7 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
 
 private extension LocationDetailsViewController {
     
-    func format(date: NSDate) -> String {
-        return dateFormatter.stringFromDate(date)
+    func format(_ date: Date) -> String {
+        return dateFormatter.string(from: date)
     }
 }

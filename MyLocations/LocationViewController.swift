@@ -10,158 +10,167 @@ import UIKit
 import CoreData
 import CoreLocation
 
+
+
 class LocationViewController: UITableViewController {
-
+    
     var coreDataStack: CoreDataStack!
-
+    
     let reuseIdentifier = "LocationCell"
-
-    //    var locations = [Location]()
-
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "Location")
-
-        let entity = NSEntityDescription.entityForName("Location", inManagedObjectContext: self.coreDataStack.managedObjectContext)
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Location> = {
+        let fetchRequest = NSFetchRequest<Location>(entityName: "Location")
+        
+        let entity = NSEntityDescription.entity(forEntityName: "Location", in: self.coreDataStack.managedObjectContext)
         fetchRequest.entity = entity
-
+        
         let sortDesctiptor1 = NSSortDescriptor(key: "category", ascending: true)
         let sortDescriptor2 = NSSortDescriptor(key: "date", ascending: true)
         fetchRequest.sortDescriptors = [sortDesctiptor1, sortDescriptor2]
-
+        
         fetchRequest.fetchBatchSize = 20
-
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: self.coreDataStack.managedObjectContext,
-                                                                  sectionNameKeyPath: "category",
-                                                                  cacheName: "Locations")
-
+        
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: self.coreDataStack.managedObjectContext,
+            sectionNameKeyPath: "category",
+            cacheName: "Locations")
+        
         fetchedResultsController.delegate = self
-
+        
         return fetchedResultsController
     }()
-
+    
     deinit {
         fetchedResultsController.delegate = nil
     }
 }
 
 
-// MARK: - View
+
+// MARK: - View Life Cycle
 
 extension LocationViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.backgroundColor = UIColor.blackColor()
+        
+        tableView.backgroundColor = UIColor.black
         tableView.separatorColor = UIColor(white: 1, alpha: 0.2)
-        tableView.indicatorStyle = .White
-
-        navigationItem.rightBarButtonItem = editButtonItem()
-
+        tableView.indicatorStyle = .white
+        
+        navigationItem.rightBarButtonItem = editButtonItem
+        
         performFetch()
     }
-
-    func performFetch() {
+    
+    private func performFetch() {
         do {
             try fetchedResultsController.performFetch()
         } catch {
             coreDataStack.fatalCoreDataError(error)
         }
     }
-
-
-    override func viewWillAppear(animated: Bool) {
+    
+    override func viewWillAppear(_ animated: Bool) {
         reloadData()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditLocation" {
+            let navigationController = segue.destination as! UINavigationController
+            
+            let controller = navigationController.topViewController as? LocationDetailsViewController
+            
+            controller?.coreDataStack = coreDataStack
+            
+            if let indexPath = tableView.indexPath(for: sender as! LocationCell) {
+                let location = fetchedResultsController.object(at: indexPath)
+                controller?.locationToEdit = location
+            }
+        }
+    }
 }
+
 
 
 // MARK: - TableView DataSource
 
 extension LocationViewController {
-
+    
     func reloadData() {
-        //        let fetchRequest = NSFetchRequest(entityName: "Location")
-        //
-        //        do {
-        //            if let results = try coreDataStack.managedObjectContext.executeFetchRequest(fetchRequest) as? [Location]{
-        ////                self.locations = results
         tableView.reloadData()
-        //            }
-        //        } catch {
-        //            fatalError("There was an error fetching the list of location")
-        //        }
     }
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections!.count
     }
-
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections![section]
-        return sectionInfo.name.uppercaseString
+        return sectionInfo.name.uppercased()
     }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
     }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-        let location = fetchedResultsController.objectAtIndexPath(indexPath) as! Location
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! LocationCell
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let location = fetchedResultsController.object(at: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! LocationCell
         cell.configure(forLocation: location)
-
+        
         let selectionView = UIView(frame: CGRect.zero)
         selectionView.backgroundColor = UIColor(white: 1, alpha: 0.2)
         cell.selectedBackgroundView = selectionView
-
+        
         return cell
     }
 }
 
 
+
 // MARK: - TableView Delegate
 
 extension LocationViewController {
-
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            let location = fetchedResultsController.objectAtIndexPath(indexPath) as! Location
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let location = fetchedResultsController.object(at: indexPath)
             location.removePhotoFile()
-            coreDataStack.managedObjectContext.deleteObject(location)
+            coreDataStack.managedObjectContext.delete(location)
             coreDataStack.saveAllContext()
         }
         
         reloadData()
     }
-
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         let labelRect = CGRect(x: 15,
                                y: tableView.sectionHeaderHeight - 14,
                                width: 300,
                                height: 14)
         let label = UILabel(frame: labelRect)
-        label.font = UIFont.boldSystemFontOfSize(11)
+        label.font = UIFont.boldSystemFont(ofSize: 11)
         // 对tableView(_, titleForHeaderInSection:_)这个方法进行拆包
         label.text = tableView.dataSource!.tableView!(tableView, titleForHeaderInSection: section)
         label.textColor = UIColor(white: 1.0, alpha: 0.4)
-        label.backgroundColor = UIColor.clearColor()
-
+        label.backgroundColor = UIColor.clear
+        
         let separatorRect = CGRect(x: 15,
                                    y: tableView.sectionHeaderHeight - 0.5,
                                    width: tableView.bounds.size.width - 15,
                                    height: 0.5)
         let separator = UIView(frame: separatorRect)
         separator.backgroundColor = tableView.separatorColor
-
+        
         let viewRect = CGRect(x: 0,
                               y: 0,
                               width: tableView.bounds.size.width,
@@ -170,87 +179,68 @@ extension LocationViewController {
         view.backgroundColor = UIColor(white: 0, alpha: 0.85)
         view.addSubview(label)
         view.addSubview(separator)
-
+        
         return view
     }
 }
 
 
-// MARK: - Segue
-
-extension LocationViewController {
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "EditLocation" {
-            let navigationController = segue.destinationViewController as! UINavigationController
-
-            let controller = navigationController.topViewController as? LocationDetailsViewController
-
-            controller?.coreDataStack = coreDataStack
-
-            if let indexPath = tableView.indexPathForCell(sender as! LocationCell) {
-                let location = fetchedResultsController.objectAtIndexPath(indexPath) as! Location
-                controller?.locationToEdit = location
-            }
-        }
-    }
-}
 
 
 // MARK: - Fetched Result Controller Delegate
 
 extension LocationViewController: NSFetchedResultsControllerDelegate {
-
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         print("*** Controller Will Change Content")
         tableView.beginUpdates()
     }
-
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
         switch type {
-        case .Insert:
+        case .insert:
             print("*** NSFetchedResultsChangeInsert (object)")
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-
-        case .Delete:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            
+        case .delete:
             print("*** NSFetchedResultsChangeDelete (object)")
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-
-        case .Update:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+            
+        case .update:
             print("*** NSFetchedResultsChangeUpdate (object)")
-            if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? LocationCell{
-                let location = fetchedResultsController.objectAtIndexPath(indexPath!) as! Location
+            if let cell = tableView.cellForRow(at: indexPath!) as? LocationCell{
+                let location = fetchedResultsController.object(at: indexPath!)
                 cell.configure(forLocation: location)
             }
-
-        case .Move:
+            
+        case .move:
             print("*** NSFetchedResultsChangeMove (object)")
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
         }
     }
-
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        
         switch type {
-        case .Insert:
-            tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
             print("*** NSFetchedResultsChangeInsert (section)")
-
-        case .Delete:
-            tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
             print("*** NSFetchedResultsChangeDelete (section)")
-
-        case .Update:
+            
+        case .update:
             print("*** NSFetchedResultsChangeUpdate (section)")
-
-        case .Move:
+            
+        case .move:
             print("*** NSFetchedResultsChangeMove (section)")
         }
     }
-
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         print("*** NSFetchedResultsDidChangeContent")
         tableView.endUpdates()
     }

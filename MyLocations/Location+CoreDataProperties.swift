@@ -19,7 +19,7 @@ extension Location {
     @NSManaged var longitude: Double
     @NSManaged var placemark: CLPlacemark?
     @NSManaged var locationDescription: String
-    @NSManaged var date: NSDate
+    @NSManaged var date: Date
     @NSManaged var category: String
     @NSManaged var photoID: NSNumber?
 

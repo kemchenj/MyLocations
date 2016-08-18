@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
 
-    mutating func add(text: String?, withSeperator seperator: String = "") {
+    mutating func add(_ text: String?, withSeperator seperator: String = "") {
         if let text = text {
             if isEmpty {
                 self += seperator

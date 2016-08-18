@@ -10,12 +10,13 @@ import UIKit
 
 class MyTabBarController: UITabBarController {
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 
     // 返回nil的话tab bar controller会根据自己的status bar style去显示
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle: UIViewController? {
         return nil
     }
+    
 }

@@ -40,9 +40,9 @@ extension MapViewController {
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditLocation" {
-            let navigationController = segue.destinationViewController as! UINavigationController
+            let navigationController = segue.destination as! UINavigationController
 
             let controller = navigationController.topViewController as! LocationDetailsViewController
 
@@ -78,7 +78,7 @@ extension MapViewController {
 
 extension MapViewController: MKMapViewDelegate {
 
-    func regionForAnnotations(annotations: [MKAnnotation]) -> MKCoordinateRegion{
+    func regionForAnnotations(_ annotations: [MKAnnotation]) -> MKCoordinateRegion{
 
         var region: MKCoordinateRegion
 
@@ -114,7 +114,7 @@ extension MapViewController: MKMapViewDelegate {
         return mapView.regionThatFits(region)
     }
 
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
         // 1. MKAnnotation是个协议, 用来指代类型的时候是指泛型约束
         //    用is可以用来验证annotation是不是一个Location类型
@@ -126,12 +126,12 @@ extension MapViewController: MKMapViewDelegate {
         //    这里用的是Pin Annotation View去约束, 也可以用自己创建一个Annotation View的子类
         let identifier = "Location"
 
-        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as! MKPinAnnotationView?
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as! MKPinAnnotationView?
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
 
             // 3. 这里一系列的Property设置都是在调整外观
-            annotationView?.enabled = true
+            annotationView?.isEnabled = true
             annotationView?.canShowCallout = true
             annotationView?.animatesDrop = false
             annotationView?.pinTintColor = UIColor(red: 0.32,
@@ -141,26 +141,26 @@ extension MapViewController: MKMapViewDelegate {
             annotationView?.tintColor = UIColor(white: 0, alpha: 0.5)
 
             // 4. 给Annotation View创建按钮, 类似于cell的detail
-            let rightButton = UIButton(type: .DetailDisclosure)
+            let rightButton = UIButton(type: .detailDisclosure)
             rightButton.addTarget(self,
                                   action: #selector(self.showLocationDetails(_:)),
-                                  forControlEvents: .TouchUpInside)
+                                  for: .touchUpInside)
             annotationView?.rightCalloutAccessoryView = rightButton
         } else {
             annotationView?.annotation = annotation
         }
 
         let button = annotationView?.rightCalloutAccessoryView as! UIButton
-        if let index = locations.indexOf(annotation as! Location) {
+        if let index = locations.index(of: annotation as! Location) {
             button.tag = index
         }
 
         return annotationView
     }
 
-    func showLocationDetails(sender: UIButton) {
+    func showLocationDetails(_ sender: UIButton) {
 
-        performSegueWithIdentifier("EditLocation", sender: sender)
+        performSegue(withIdentifier: "EditLocation", sender: sender)
     }
 }
 
@@ -173,12 +173,12 @@ extension MapViewController {
 
         mapView.removeAnnotations(locations)
 
-        let entity = NSEntityDescription.entityForName("Location", inManagedObjectContext: coreDataStack.managedObjectContext)
+        let entity = NSEntityDescription.entity(forEntityName: "Location", in: coreDataStack.managedObjectContext)
 
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<Location>()
         fetchRequest.entity = entity
 
-        locations = try! coreDataStack.managedObjectContext.executeFetchRequest(fetchRequest) as! [Location]
+        locations = try! coreDataStack.managedObjectContext.fetch(fetchRequest)
 
         mapView.addAnnotations(locations)
         print(locations)
@@ -189,7 +189,7 @@ extension MapViewController {
 
 extension MapViewController: UINavigationBarDelegate {
 
-    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-        return .TopAttached
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
 }

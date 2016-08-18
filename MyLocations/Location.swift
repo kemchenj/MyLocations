@@ -41,8 +41,8 @@ extension Location {
 
     var photoPath: String {
         assert(photoID != nil, "No photo ID set")
-        let fileName = "Photo-\(photoID!.integerValue).jpg"
-        return (applicationDocumentsDirectory as NSString).stringByAppendingPathComponent(fileName)
+        let fileName = "Photo-\(photoID!.intValue).jpg"
+        return (applicationDocumentsDirectory as NSString).appendingPathComponent(fileName)
     }
 
     // file may be damaged or removed
@@ -51,9 +51,9 @@ extension Location {
     }
 
     class func nextPhotoID() -> Int {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let currentID = userDefaults.integerForKey("PhotoID")
-        userDefaults.setInteger(currentID + 1, forKey: "PhotoID")
+        let userDefaults = UserDefaults.standard
+        let currentID = userDefaults.integer(forKey: "PhotoID")
+        userDefaults.set(currentID + 1, forKey: "PhotoID")
         userDefaults.synchronize()
         return currentID
     }
@@ -61,10 +61,10 @@ extension Location {
     func removePhotoFile() {
         if hasPhoto {
             let path = photoPath
-            let fileManager = NSFileManager.defaultManager()
-            if fileManager.fileExistsAtPath(path) {
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: path) {
                 do {
-                    try fileManager.removeItemAtPath(path)
+                    try fileManager.removeItem(atPath: path)
                 } catch {
                     print("Error Removing File: \(error)")
                 }
