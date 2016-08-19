@@ -1,3 +1,3 @@
 # MyLocations
 
-![DemoPreview](MyLocaiton.gif)
+![DemoPreview](MyLocation.gif)
