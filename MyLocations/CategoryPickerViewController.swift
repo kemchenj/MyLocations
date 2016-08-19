@@ -15,7 +15,7 @@ class CategoryPickerViewController: UITableViewController {
     var selectedCategoryName = ""
     var selectedIndexPath = IndexPath()
     
-    let categories = ["No Category",
+    fileprivate let categories = ["No Category",
                       "Apple Store",
                       "Bar", "Bookstore",
                       "Club",

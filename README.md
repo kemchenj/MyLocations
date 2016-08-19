@@ -1,3 +1,3 @@
 # MyLocations
 
-Location app from Raywendelich
+![DemoPreview](MyLocaiton.gif)

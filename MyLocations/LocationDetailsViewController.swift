@@ -74,7 +74,7 @@ class LocationDetailsViewController: UITableViewController, Hud {
 extension LocationDetailsViewController {
 
     func listenForBackgroundNotification() {
-        observer =  NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidEnterBackground, object: nil, queue: OperationQueue.main) { [weak self] _ in  // 告诉闭包self会被捕获, 但是是以指针的形式被捕获
+        observer =  NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidEnterBackground, object: nil, queue: OperationQueue.main) { [weak self] _ in  // 告诉闭包self会被捕获, 但是是以弱引用的形式被捕获
 
             if let strongSelf = self { // self在这里会以一个optional的形式存在, 所以必须用iflet拆包
                 if strongSelf.presentedViewController != nil {
