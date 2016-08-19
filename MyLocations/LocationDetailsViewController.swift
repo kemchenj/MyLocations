@@ -21,7 +21,7 @@ fileprivate let dateFormatter: DateFormatter = {
 
 // MARK: - Class
 
-class LocationDetailsViewController: UITableViewController, Hud {
+class LocationDetailsViewController: UITableViewController, Hudable {
 
     var coreDataStack: CoreDataStack!
 
